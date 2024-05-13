@@ -1,10 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Dashboard from '../views/Dashboard.vue';
-import UserAccount from '../views/UserAccount.vue';
-import UserDetails from '../views/UserDetails.vue'; 
-import ReviseDocuments from '../views/ReviseDocuments.vue'; 
-import Logs from '../views/Logs.vue';
-import Login from '../views/Login.vue';
+import Dashboard from '../views/super-admin/Dashboard.vue';
+import UserAccount from '../views/super-admin/UserAccount.vue';
+import UserDetails from '../views/super-admin/UserDetails.vue'; 
+import ReviseDocuments from '../views/super-admin/ReviseDocuments.vue'; 
+import Logs from '../views/super-admin/Logs.vue';
+import Login from '../views/super-admin/Login.vue';
 
 const router = createRouter({
   history: createWebHistory(),
