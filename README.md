@@ -1,1 +1,1 @@
-# Thumbworx
+# Thumbworx sample
