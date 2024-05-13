@@ -111,6 +111,13 @@ class UserController extends Controller
         return response()->json(['total_helper_users' => $helperCount], 200);
     }
 
+    public function accountRecover(string $id)
+    {
+        $user = $this->user->find($id); //  $this->user is User model instance
+        $user->update(['is_restore' => 0]); // Update is_recover to 1
+        return $user;
+    }
+
 
 
 }

@@ -38,6 +38,8 @@ Route::get('/total-driver-users-count', [UserController::class, 'getTotalDriverU
 
 Route::get('/total-helper-users-count', [UserController::class, 'getTotalHelperUsersCount']);
 
+Route::put('/user/account-recover/{id}', [UserController::class, 'accountRecover']); //Dito ung reference na galing sa UserController.php
+
 
 //----------------------------------Routes for Logs--------------------------------
 Route::apiResource('/logs', LogsController::class); //url for LogsController || define routes for CRUD operations 

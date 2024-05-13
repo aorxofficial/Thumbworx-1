@@ -5,6 +5,7 @@ import UserDetails from '../views/super-admin/UserDetails.vue';
 import ReviseDocuments from '../views/super-admin/ReviseDocuments.vue'; 
 import Logs from '../views/super-admin/Logs.vue';
 import Login from '../views/super-admin/Login.vue';
+import AccountRecover from '../views/super-admin/AccountRecover.vue';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -43,6 +44,12 @@ const router = createRouter({
       path: '/Login', 
       component: Login,
       name: 'Login',
+    },
+
+    {
+      path: '/AccountRecover',
+      component: AccountRecover,
+      meta: { requiresAuth: true },  // Add this line of code para hindi maaccess kapag hindi naka-login.
     },
   ],
 });

@@ -25,6 +25,10 @@
 				<span class="material-icons">description</span>
 				<span class="text">Logs</span>
 			</router-link>
+			<router-link to="/AccountRecover" class="button">
+				<span class="material-icons">group</span>
+				<span class="text">Account Recovery</span>
+			</router-link>
 			
 		</div>
 
