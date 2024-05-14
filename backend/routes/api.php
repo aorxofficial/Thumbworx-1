@@ -12,40 +12,42 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-//----------------------------------Routes for Users------------------------------
+//Routes for Users
+Route::prefix('user')->group(function () {
+    // Define routes for CRUD operations using apiResource
+    Route::apiResource('/', UserController::class); //Api CRUD scaffolfing
+    
+    Route::get('/{id}', [UserController::class, 'show']); // Display the specific ID
+    Route::put('/approve/{id}', [UserController::class, 'approveAccount']);
+    Route::put('/deny/{id}', [UserController::class, 'denyAccount']);
+    Route::get('/validate-token/{token}', [UserController::class, 'validateToken']);
+    Route::post('/generate-random-password/{id}', [UserController::class, 'generateRandomPassword']);
+    Route::put('/account-recover/{id}', [UserController::class, 'accountRecover']);
 
-Route::apiResource('/user', UserController::class); //url for UserController || define routes for CRUD operations 
+    // Dashboard routes
+    Route::get('/total-client-users-count', [UserController::class, 'getTotalClientUsersCount']);
+    Route::get('/total-driver-users-count', [UserController::class, 'getTotalDriverUsersCount']);
+    Route::get('/total-helper-users-count', [UserController::class, 'getTotalHelperUsersCount']);
 
-// Route to approve account
-Route::put('/user/approve/{id}', [UserController::class, 'approveAccount']); //Dito ung reference na galing sa UserController.php
-
-// Route to deny account
-Route::put('/user/deny/{id}', [UserController::class, 'denyAccount']); //Dito ung reference na galing sa UserController.php
-
-Route::post('/user/send-account-denied-email', [MailController::class, 'sendAccountDeniedEmail']); //icheck kung need ng id dito
-
-Route::post('/user/send-account-approved-email', [MailController::class, 'sendAccountApprovedEmail']); //icheck kung need ng id dito
-
-//Route in validating the token in Revise Documents.
-Route::get('/user/validate-token/{token}', [UserController::class, 'validateToken']);
-
-Route::post('/user/generate-random-password/{id}', [UserController::class, 'generateRandomPassword']);
-
-//Route for Dashboard
-Route::get('/total-client-users-count', [UserController::class, 'getTotalClientUsersCount']);
-
-Route::get('/total-driver-users-count', [UserController::class, 'getTotalDriverUsersCount']);
-
-Route::get('/total-helper-users-count', [UserController::class, 'getTotalHelperUsersCount']);
-
-Route::put('/user/account-recover/{id}', [UserController::class, 'accountRecover']); //Dito ung reference na galing sa UserController.php
+    // Mail Routes
+    Route::post('/send-account-denied-email', [MailController::class, 'sendAccountDeniedEmail']);
+    Route::post('/send-account-approved-email', [MailController::class, 'sendAccountApprovedEmail']);
+});
 
 
-//----------------------------------Routes for Logs--------------------------------
-Route::apiResource('/logs', LogsController::class); //url for LogsController || define routes for CRUD operations 
+// Dashboard related routes
+Route::prefix('dashboard')->group(function () {
+    Route::get('/total-client-users-count', [UserController::class, 'getTotalClientUsersCount']);
+    Route::get('/total-driver-users-count', [UserController::class, 'getTotalDriverUsersCount']);
+    Route::get('/total-helper-users-count', [UserController::class, 'getTotalHelperUsersCount']);
+});
 
-//----------------------------------API Routes------------------------------------------
-//<project url>/api/resgister
+//Logs related routes
+Route::prefix('admin')->group(function () {
+    Route::apiResource('/logs', LogsController::class);
+}); //url for LogsController || define routes for CRUD operations 
+
+//API Related Routes
 Route::post("register", [ApiController::class, "register"]); //open method so no need ng middleware
 Route::post("login", [ApiController::class, "login"]);
 

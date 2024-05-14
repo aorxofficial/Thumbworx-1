@@ -482,7 +482,7 @@ export default {
 
         // Make a PUT request to update the user details including the account_status and hashed password
         axios
-          .put(`http://127.0.0.1:8000/api/user/${userDetails.id}`, userDetails)
+          .put(`http://127.0.0.1:8000/api/user/approve/${userDetails.id}`, userDetails)
           .then((response) => {
             console.log("User approved successfully:", response.data);
             // Show alert that the account has been approved
@@ -529,7 +529,7 @@ export default {
       userDetails.token = token;
 
       axios
-        .put(`http://127.0.0.1:8000/api/user/${userDetails.id}`, userDetails)
+        .put(`http://127.0.0.1:8000/api/user/deny/${userDetails.id}`, userDetails)
         .then((response) => {
           console.log("User denied successfully:", response.data);
           alert("Account has been denied!");

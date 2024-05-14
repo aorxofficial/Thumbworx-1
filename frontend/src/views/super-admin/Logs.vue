@@ -41,7 +41,7 @@ export default {
   methods: {
     fetchLogs() {
       axios
-        .get("http://127.0.0.1:8000/api/logs")
+        .get("http://127.0.0.1:8000/api/admin/logs")
         .then((response) => {
           this.logs = response.data;
         })

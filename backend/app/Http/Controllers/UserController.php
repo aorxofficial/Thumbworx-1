@@ -114,7 +114,7 @@ class UserController extends Controller
     public function accountRecover(string $id)
     {
         $user = $this->user->find($id); //  $this->user is User model instance
-        $user->update(['is_restore' => 0]); // Update is_recover to 1
+        $user->update(['is_restore' => 0]); // Update is_recover to 0
         return $user;
     }
 

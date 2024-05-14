@@ -60,7 +60,7 @@ export default {
 
     const fetchTotalClientCount = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/api/total-client-users-count');
+        const response = await axios.get('http://127.0.0.1:8000/api/dashboard/total-client-users-count');
         totalClients.value = response.data.total_client_users;
       } catch (error) {
         console.error('Error fetching total client count:', error);
@@ -69,7 +69,7 @@ export default {
 
     const fetchTotalDriverCount = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/api/total-driver-users-count');
+        const response = await axios.get('http://127.0.0.1:8000/api/dashboard/total-driver-users-count');
         totalDrivers.value = response.data.total_driver_users;
       } catch (error) {
         console.error('Error fetching total driver count:', error);
@@ -78,7 +78,7 @@ export default {
 
     const fetchTotalHelperCount = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/api/total-helper-users-count');
+        const response = await axios.get('http://127.0.0.1:8000/api/dashboard/total-helper-users-count');
         totalHelpers.value = response.data.total_helper_users;
       } catch (error) {
         console.error('Error fetching total driver count:', error);
