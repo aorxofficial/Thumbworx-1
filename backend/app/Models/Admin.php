@@ -4,10 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
+use Tymon\JWTAuth\Contracts\JWTSubject;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Admin extends Model
+class Admin extends Authenticatable implements JWTSubject
 {
-    use HasFactory;
+    use HasApiTokens, HasFactory, Notifiable;
 
     protected $table = 'admin'; //Database Table
     protected $primaryKey = 'admin_id'; //The primary key
@@ -30,5 +34,15 @@ class Admin extends Model
         // 'password' => 'hashed', (Try lagyan neto)
     
     ];
+
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();   
+    }
+
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
 
 }
