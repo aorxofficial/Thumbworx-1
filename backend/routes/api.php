@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\LogsController;
 use App\Http\Controllers\UserController; //Walang API na folder directory
 use Illuminate\Http\Request;
@@ -10,6 +11,16 @@ use App\Http\Controllers\ApiController;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::prefix('auth')->group(function () {
+    Route::post("register", [ApiController::class, "register"]); 
+    Route::post("login", [ApiController::class, "login"]);
+    Route::get("refresh", [ApiController::class, "refreshToken"]);
+    Route::prefix('admin')->group(function () {
+        Route::post('register', [AdminAuthController::class, 'register']);
+        Route::post('login', [AdminAuthController::class, 'login']);
+    });
 });
 
 //Routes for Users
@@ -45,20 +56,10 @@ Route::prefix('dashboard')->group(function () {
 //Logs related routes
 Route::prefix('admin')->group(function () {
     Route::apiResource('/logs', LogsController::class);
-}); //url for LogsController || define routes for CRUD operations 
+}); 
 
-//API Related Routes
-Route::post("register", [ApiController::class, "register"]); //open method so no need ng middleware
-Route::post("login", [ApiController::class, "login"]);
-
-Route::group([
-    "middleware" => ["auth:api"] //validate if valid or not. If valid didiretso sa route sa baba.
-], function(){
-
-    //Before calling this routes we need a token value generated from the login API | Kailangan ng token para maaccess tong mga to
+Route::middleware(['auth:api'])->group(function () {
     Route::get("profile", [ApiController::class, "profile"]);
-    Route::get("refresh", [ApiController::class, "refreshToken"]);
-    Route::get("logout", [ApiController::class, "logout"]);
+    // Route::get("logout", [ApiController::class, "logout"]);
 });
-
 

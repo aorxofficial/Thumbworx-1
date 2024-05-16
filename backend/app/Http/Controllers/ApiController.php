@@ -69,14 +69,15 @@ class ApiController extends Controller
         ]);
     }
 
-    //Logout API (GET) | Protected methods
-    public function logout(){
+    //Logout API (GET) | Protected 
+    // This is not needed for JWT as logouts are completely managed client side.
+    // public function logout(){
         
-        auth()->logout();
+    //     auth()->logout();
 
-        return response()->json([
-            "status" => true,
-            "message" => "User logged out successfully"
-        ]);
-    }
+    //     return response()->json([
+    //         "status" => true,
+    //         "message" => "User logged out successfully"
+    //     ]);
+    // }
 }
