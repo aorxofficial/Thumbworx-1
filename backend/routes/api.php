@@ -24,35 +24,38 @@ Route::prefix('auth')->group(function () {
     });
 });
 
-//Routes for Users
-Route::prefix('user')->group(function () {
-    // Define routes for CRUD operations using apiResource
-    Route::apiResource('/', UserController::class); //Api CRUD scaffolfing
+Route::middleware('auth:admin')->group(function () {
+    Route::prefix('user')->group(function () {
+        // Define routes for CRUD operations using apiResource
+        Route::apiResource('/', UserController::class); //Api CRUD scaffolfing
+        
+        Route::get('/{id}', [UserController::class, 'show']); // Display the specific ID
+        Route::put('/approve/{id}', [UserController::class, 'approveAccount']);
+        Route::put('/deny/{id}', [UserController::class, 'denyAccount']);
+        Route::get('/validate-token/{token}', [UserController::class, 'validateToken']);
+        Route::post('/generate-random-password/{id}', [UserController::class, 'generateRandomPassword']);
+        Route::put('/account-recover/{id}', [UserController::class, 'accountRecover']);
     
-    Route::get('/{id}', [UserController::class, 'show']); // Display the specific ID
-    Route::put('/approve/{id}', [UserController::class, 'approveAccount']);
-    Route::put('/deny/{id}', [UserController::class, 'denyAccount']);
-    Route::get('/validate-token/{token}', [UserController::class, 'validateToken']);
-    Route::post('/generate-random-password/{id}', [UserController::class, 'generateRandomPassword']);
-    Route::put('/account-recover/{id}', [UserController::class, 'accountRecover']);
-
-    // Dashboard routes
-    Route::get('/total-client-users-count', [UserController::class, 'getTotalClientUsersCount']);
-    Route::get('/total-driver-users-count', [UserController::class, 'getTotalDriverUsersCount']);
-    Route::get('/total-helper-users-count', [UserController::class, 'getTotalHelperUsersCount']);
-
-    // Mail Routes
-    Route::post('/send-account-denied-email', [MailController::class, 'sendAccountDeniedEmail']);
-    Route::post('/send-account-approved-email', [MailController::class, 'sendAccountApprovedEmail']);
+        // Dashboard routes
+        Route::get('/total-client-users-count', [UserController::class, 'getTotalClientUsersCount']);
+        Route::get('/total-driver-users-count', [UserController::class, 'getTotalDriverUsersCount']);
+        Route::get('/total-helper-users-count', [UserController::class, 'getTotalHelperUsersCount']);
+    
+        // Mail Routes
+        Route::post('/send-account-denied-email', [MailController::class, 'sendAccountDeniedEmail']);
+        Route::post('/send-account-approved-email', [MailController::class, 'sendAccountApprovedEmail']);
+    });
+    // Dashboard related routes
+    Route::prefix('dashboard')->group(function () {
+        Route::get('/total-client-users-count', [UserController::class, 'getTotalClientUsersCount']);
+        Route::get('/total-driver-users-count', [UserController::class, 'getTotalDriverUsersCount']);
+        Route::get('/total-helper-users-count', [UserController::class, 'getTotalHelperUsersCount']);
+    });
 });
 
+//Routes for Users
 
-// Dashboard related routes
-Route::prefix('dashboard')->group(function () {
-    Route::get('/total-client-users-count', [UserController::class, 'getTotalClientUsersCount']);
-    Route::get('/total-driver-users-count', [UserController::class, 'getTotalDriverUsersCount']);
-    Route::get('/total-helper-users-count', [UserController::class, 'getTotalHelperUsersCount']);
-});
+
 
 //Logs related routes
 Route::prefix('admin')->group(function () {
@@ -63,4 +66,5 @@ Route::middleware(['auth:api'])->group(function () {
     Route::get("profile", [ApiController::class, "profile"]);
     // Route::get("logout", [ApiController::class, "logout"]);
 });
+
 
