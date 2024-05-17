@@ -6,10 +6,24 @@ import ReviseDocuments from '../views/super-admin/ReviseDocuments.vue';
 import Logs from '../views/super-admin/Logs.vue';
 import Login from '../views/super-admin/Login.vue';
 import AccountRecover from '../views/super-admin/AccountRecover.vue';
+import LandingPage from '../views/super-admin/LandingPage.vue';
+import Header from '../views/super-admin/Header.vue';
 
 const router = createRouter({
   history: createWebHistory(),
   routes: [
+    {
+      path: '/Header',
+      component: Header,
+      name: 'Header',
+      meta: { requiresAuth: false }, // Add this line of code para hindi maaccess kapag hindi naka-login.
+    },
+    {
+      path: '/LandingPage',
+      component: LandingPage,
+      name: 'LandingPage',
+      meta: { requiresAuth: false }, // Add this line of code para hindi maaccess kapag hindi naka-login.
+    },
     {
       path: '/Dashboard',
       component: Dashboard,
