@@ -18,14 +18,10 @@ class AdminAuthController extends Controller
             "password" => "required"
         ]);
 
-        Log::info($request);
-
         $token = Auth::guard('admin')->attempt([
             "email" => $request->email,
             "password" => $request->password
         ]);
-
-        Log::info($token);
 
         if (!$token) {
             return response()->json([
@@ -64,6 +60,12 @@ class AdminAuthController extends Controller
             "token" => $this->responseWithToken($token),
         ]);
         
+    }
+
+    public function refresh()
+    {
+        $token = Auth::guard('admin')->refresh();
+        return $this->responseWithToken($token);
     }
 
     public function responseWithToken($token) 

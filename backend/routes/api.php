@@ -19,6 +19,7 @@ Route::prefix('auth')->group(function () {
     Route::get("refresh", [ApiController::class, "refreshToken"]);
     Route::prefix('admin')->group(function () {
         Route::post('register', [AdminAuthController::class, 'register']);
+        Route::post('refresh', [AdminAuthController::class, 'refresh']);
         Route::post('login', [AdminAuthController::class, 'login']);
     });
 });
