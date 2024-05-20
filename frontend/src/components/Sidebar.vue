@@ -5,7 +5,7 @@
 		</div>
 
 		<div class="menu-toggle-wrap">
-			<button class="menu-toggle" @click="ToggleMenu">
+			<button class="menu-toggle" @click="toggleMenu">
 				<span class="material-icons">keyboard_double_arrow_right</span>
 			</button>
 		</div>
@@ -43,52 +43,30 @@
 	</aside>
 </template>
 
-<script setup>
+<script>
 import { ref } from 'vue'
-import axios from 'redaxios'
 import router from '../router' // Para maredirect sa login or other pages kung want
+import { useUserStore } from '../stores/userStore'
 
-const is_expanded = ref(localStorage.getItem("is_expanded") === "true")
-
-const ToggleMenu = () => {
-	is_expanded.value = !is_expanded.value
-	localStorage.setItem("is_expanded", is_expanded.value)
-}
-
-const logout = async () => {
-	try {
-		// Get the JWT token from localStorage
-		const token = localStorage.getItem('token')
-		if (!token) {
-			// Handle case where token is not available
-			console.error('JWT token not found in localStorage')
-			return
+export default {
+	name: 'Sidebar',
+	data() {
+		return {
+			is_expanded: true,
 		}
-
-		// Set the request headers
-		const headers = {
-			'Authorization': `Bearer ${token}`,
-			'Accept': 'application/json'
+	},
+	setup() {
+		const userStore = useUserStore();
+		return { userStore }
+	},
+	methods: {
+		toggleMenu() {
+			this.is_expanded = !this.is_expanded;
+		},
+		logout() {
+			this.userStore.logout()
+			this.$router.push({ name: 'Login'})
 		}
-
-		// Make the logout request
-		const response = await axios.get('http://127.0.0.1:8000/api/logout', {
-			headers: headers
-		})
-
-		// Check if logout was successful
-		if (response.data.status === true) {
-			// Remove token from localStorage
-			localStorage.removeItem('token')
-			// Redirect to login page
-			router.push({ name: 'Login' })
-		} else {
-			// Handle case where logout was not successful
-			console.error('Logout request failed:', response.data.message)
-		}
-	} catch (error) {
-		// Handle any errors
-		console.error('Error during logout request:', error)
 	}
 }
 </script>

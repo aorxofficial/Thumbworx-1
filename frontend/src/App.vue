@@ -18,9 +18,7 @@ import User from './components/User.vue' //Para mapakita sa screen | Feel ko eto
 </template>
 
 <script setup>
-import { onMounted } from 'vue';
 import Sidebar from './components/Sidebar.vue'
-
 
 </script>
 
