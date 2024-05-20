@@ -60,7 +60,7 @@
   </template>
 
 <script>
-import axios from 'redaxios';
+import { useUserStore } from '../../stores/userStore';
 
 export default {
   data() {
@@ -70,16 +70,14 @@ export default {
       error: null,
     };
   },
+  setup() {
+    const userStore = useUserStore()
+    return { userStore } 
+  },  
   methods: {
     async login() {
       try {
-        const response = await axios.post('http://127.0.0.1:8000/api/auth/admin/login', {
-          email: this.email,
-          password: this.password,
-        });
-
-        const { token } = response.data;
-        localStorage.setItem('token', token); // Store token securely in localStorage
+        await this.userStore.login(this.email, this.password)
         this.$router.push({ name: 'Dashboard' }); // Redirect to dashboard page after login
       } catch (error) {
         this.error = 'Invalid email or password';
