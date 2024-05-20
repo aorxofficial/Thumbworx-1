@@ -72,7 +72,7 @@ class AdminAuthController extends Controller
     {
         return response()->json([
             'status' => 'success',
-            'access_token' => $token,
+            'token' => $token,
             'type' => 'bearer',
         ]);
     }
