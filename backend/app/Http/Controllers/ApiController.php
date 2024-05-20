@@ -21,21 +21,18 @@ class ApiController extends Controller
         ]);
 
         // JWTAuth | chinecheck kung existing ba eto sa DB if it exist it will return a JWT Token
-        $token = JWTAuth::attempt([
+        $token = JWTAuth::attempt([ //Default User table sya tumitingin
             "email" => $request->email,
             "password" => $request->password
         ]);
 
         if (!empty($token)) {
-            // Check if the user is an admin
-            $isAdmin = auth()->user()->user_type === 'Admin'; // Assuming 'admin' is the value for admin users
 
             //Eto ung lumalabas kapag successful yung login
             return response()->json([
                 "status" => true,
                 "message" => "User logged in successfully",
                 "token" => $token, //Generating random token
-                "isAdmin" => $isAdmin // Add isAdmin flag to the response
             ]);
         }
 
@@ -44,6 +41,7 @@ class ApiController extends Controller
             "message" => "Invalid details"
         ]);
     }
+    
 
     //Profile API (GET) | Protected methods
     public function profile(){ //Kapag tinawag mo to ireread nya ung user details
