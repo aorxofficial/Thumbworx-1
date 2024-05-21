@@ -60,7 +60,7 @@
   </template>
 
 <script>
-import { useUserStore } from '../../stores/userStore';
+import { useAdminStore } from '../../stores/adminStore';
 
 export default {
   data() {
@@ -71,13 +71,13 @@ export default {
     };
   },
   setup() {
-    const userStore = useUserStore()
-    return { userStore } 
+    const adminStore = useAdminStore()
+    return { adminStore } 
   },  
   methods: {
     async login() {
       try {
-        await this.userStore.login(this.email, this.password)
+        await this.adminStore.login(this.email, this.password)
         this.$router.push({ name: 'Dashboard' }); // Redirect to dashboard page after login
       } catch (error) {
         this.error = 'Invalid email or password';

@@ -46,7 +46,7 @@
 <script>
 import { ref } from 'vue'
 import router from '../router' // Para maredirect sa login or other pages kung want
-import { useUserStore } from '../stores/userStore'
+import { useAdminStore } from '../stores/adminStore'
 
 export default {
 	name: 'Sidebar',
@@ -56,15 +56,15 @@ export default {
 		}
 	},
 	setup() {
-		const userStore = useUserStore();
-		return { userStore }
+		const adminStore = useAdminStore();
+		return { adminStore }
 	},
 	methods: {
 		toggleMenu() {
 			this.is_expanded = !this.is_expanded;
 		},
 		logout() {
-			this.userStore.logout()
+			this.adminStore.logout()
 			this.$router.push({ name: 'Login'})
 		}
 	}
