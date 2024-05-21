@@ -27,7 +27,7 @@ class AdminAuthController extends Controller
             return response()->json([
                 "status" => false,
                 "message" => "Invalid credentials"
-            ]);
+            ], 400);
         }
 
         return $this->responseWithToken($token);
