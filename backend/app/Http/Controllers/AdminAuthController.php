@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AdminRegistrationRequest;
 use App\Models\Admin;
+use App\Models\Logs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
@@ -29,6 +30,12 @@ class AdminAuthController extends Controller
                 "message" => "Invalid credentials"
             ], 400);
         }
+
+        // Log the login action
+        $log = new Logs();
+        $log->admin_id = Auth::guard('admin')->id();
+        $log->action = 'Logged In';
+        $log->save();
 
         return $this->responseWithToken($token);
     }
@@ -59,7 +66,7 @@ class AdminAuthController extends Controller
             "message" => "Created admin account.",
             "token" => $this->responseWithToken($token),
         ]);
-        
+
     }
 
     public function refresh()
@@ -68,7 +75,7 @@ class AdminAuthController extends Controller
         return $this->responseWithToken($token);
     }
 
-    public function responseWithToken($token) 
+    public function responseWithToken($token)
     {
         return response()->json([
             'status' => 'success',

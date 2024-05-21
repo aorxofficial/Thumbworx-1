@@ -15,10 +15,15 @@ class Logs extends Model
 
     protected $fillable = [
         'user_id',
+        'admin_id',
         'action',
     ];
 
-        // Para ata sa pagconnect ng foreign keys
+        public function admin()
+        {
+            return $this->belongsTo(Admin::class);
+        }
+
         public function user()
         {
             return $this->belongsTo(User::class);
