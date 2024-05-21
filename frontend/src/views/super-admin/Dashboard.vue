@@ -52,13 +52,20 @@ import { useAdminStore } from '../../stores/adminStore';
 export default {
   name: 'Dashboard',
   setup() {
+    const adminStore = useAdminStore()
+    const token = adminStore.token
+
     const totalClients = ref(null);
     const totalDrivers = ref(null);
     const totalHelpers = ref(null);
 
     const fetchTotalClientCount = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/api/dashboard/total-client-users-count');
+        const response = await axios.get('http://127.0.0.1:8000/api/dashboard/total-client-users-count', {
+          "headers": {
+            "Authorization": `Bearer ${token}`
+          }
+        });
         totalClients.value = response.data.total_client_users;
       } catch (error) {
         console.error('Error fetching total client count:', error);
@@ -67,7 +74,11 @@ export default {
 
     const fetchTotalDriverCount = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/api/dashboard/total-driver-users-count');
+        const response = await axios.get('http://127.0.0.1:8000/api/dashboard/total-driver-users-count', {
+          "headers": {
+            "Authorization": `Bearer ${token}`
+          }
+        });
         totalDrivers.value = response.data.total_driver_users;
       } catch (error) {
         console.error('Error fetching total driver count:', error);
@@ -76,18 +87,22 @@ export default {
 
     const fetchTotalHelperCount = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/api/dashboard/total-helper-users-count');
+        const response = await axios.get('http://127.0.0.1:8000/api/dashboard/total-helper-users-count', {
+          headers: {
+            "Authorization": `Bearer ${token}`
+          }
+        });
         totalHelpers.value = response.data.total_helper_users;
       } catch (error) {
         console.error('Error fetching total driver count:', error);
       }
     };
 
-    // onMounted(() => {
-    //   fetchTotalClientCount();
-    //   fetchTotalDriverCount(); // Fetch total driver count on component mount
-    //   fetchTotalHelperCount();
-    // });
+    onMounted(() => {
+      fetchTotalClientCount();
+      fetchTotalDriverCount(); // Fetch total driver count on component mount
+      fetchTotalHelperCount();
+    });
 
     return {
       totalClients,

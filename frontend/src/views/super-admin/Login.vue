@@ -78,10 +78,8 @@ export default {
     async login() {
       try {
         await this.adminStore.login(this.email, this.password)
-        this.$router.push({ name: 'Dashboard' }); // Redirect to dashboard page after login
       } catch (error) {
         this.error = 'Invalid email or password';
-        console.error('Error:', error);
       }
     },
   },

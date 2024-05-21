@@ -65,7 +65,6 @@ export default {
 		},
 		logout() {
 			this.adminStore.logout()
-			this.$router.push({ name: 'Login'})
 		}
 	}
 }
