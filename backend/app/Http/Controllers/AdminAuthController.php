@@ -31,8 +31,6 @@ class AdminAuthController extends Controller
             ], 400);
         }
 
-        // return Auth::guard('admin')->id();
-
         // Log the login action
         $log = new Logs();
         $log->admin_id = Auth::guard('admin')->id();
