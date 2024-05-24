@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('logs', function (Blueprint $table) {
             $table->id('logs_id'); //Modifying the name of the primary key
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); //Pwedeng maglagay ng onUpdate('cascade') pero para sa unique ID lng yon na maupdate
+            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('cascade'); //Pwedeng maglagay ng onUpdate('cascade') pero para sa unique ID lng yon na maupdate
             $table->string('action');
             $table->timestamps();
         });

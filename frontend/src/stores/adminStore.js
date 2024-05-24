@@ -15,7 +15,6 @@ export const useAdminStore = defineStore('user', {
                 email,
                 password
             })
-
             const { token } = response.data;
             this.token = token
             localStorage.setItem('token', token)
