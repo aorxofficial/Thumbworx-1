@@ -435,7 +435,8 @@
 
 <script>
 import axios from "redaxios";
-
+import { ref, onMounted } from "vue";
+import { useAdminStore } from "../../stores/adminStore";
 
 export default {
   name: "UserDetails",
@@ -443,11 +444,10 @@ export default {
     return {
       userDetails: {},
       result: {
-        account_status: "", //Eto lang nakalagay kasi eto lang naman ung inupdate or current need tawagin sa database
+        account_status: "",
         email: "",
         password: "",
         token: "",
-        //Walang token pero nauupdate/insert sa database
       },
     };
   },
@@ -457,8 +457,20 @@ export default {
   methods: {
     fetchUserDetails() {
       const userId = this.$route.params.id;
+      const adminStore = useAdminStore();
+      const token = adminStore.token;
+
+      if (!token) {
+        console.error("Token not available");
+        return;
+      }
+
       axios
-        .get(`http://127.0.0.1:8000/api/user/${userId}`)
+        .get(`http://127.0.0.1:8000/api/user/${userId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
         .then((response) => {
           this.userDetails = response.data;
         })
@@ -467,97 +479,114 @@ export default {
         });
     },
 
-    approveUser(userDetails) {
-    // Make a POST request to UserController's endpoint to generate the random password
-    axios
-      .post(`http://127.0.0.1:8000/api/user/generate-random-password/${userDetails.id}`)
-      .then((response) => {
-        console.log("Password generated successfully:", response.data);
+    async approveUser(userDetails) {
+      try {
+        const adminStore = useAdminStore();
+        const token = adminStore.token;
+
+        // Make a POST request to UserController's endpoint to generate the random password
+        const passwordResponse = await axios.post(
+          `http://127.0.0.1:8000/api/user/generate-random-password/${userDetails.id}`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log("Password generated successfully:", passwordResponse.data);
 
         // Update the account_status to 1
         userDetails.account_status = 1;
 
         // Store the unhashed password
-        const unhashedPassword = response.data.password;
+        const unhashedPassword = passwordResponse.data.password;
 
         // Make a PUT request to update the user details including the account_status and hashed password
-        axios
-          .put(`http://127.0.0.1:8000/api/user/approve/${userDetails.id}`, userDetails)
-          .then((response) => {
-            console.log("User approved successfully:", response.data);
-            // Show alert that the account has been approved
-            alert("Account has been approved!");
+        const approveResponse = await axios.put(
+          `http://127.0.0.1:8000/api/user/approve/${userDetails.id}`,
+          userDetails,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log("User approved successfully:", approveResponse.data);
 
-            // Send approval email with unhashed password
-            axios
-              .post(
-                `http://127.0.0.1:8000/api/user/send-account-approved-email`,
-                { 
-                  email: userDetails.email, 
-                  password: unhashedPassword
-                }
-              )
-              .then((emailResponse) => {
-                console.log(
-                  "Approval email sent successfully:",
-                  emailResponse.data
-                );
-              })
-              .catch((emailError) => {
-                console.error("Error sending approval email:", emailError);
-              });
+        // Show alert that the account has been approved
+        alert("Account has been approved!");
 
-            // Fetch updated user details after approval
-            this.fetchUserDetails();
-          })
-          .catch((error) => {
-            console.error("Error approving user:", error);
-          });
-      })
-      .catch((error) => {
-        console.error("Error generating random password:", error);
-      });
-},
+        // Send approval email with unhashed password
+        const emailResponse = await axios.post(
+          `http://127.0.0.1:8000/api/user/send-account-approved-email`,
+          {
+            email: userDetails.email,
+            password: unhashedPassword,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log("Approval email sent successfully:", emailResponse.data);
 
-    denyUser(userDetails) {
-      userDetails.account_status = 2;
-
-      // Generate a unique token
-      const token = Math.random().toString(36); // Generates a random alphanumeric token
-
-      // Set the generated token to userDetails.token
-      userDetails.token = token;
-
-      axios
-        .put(`http://127.0.0.1:8000/api/user/deny/${userDetails.id}`, userDetails)
-        .then((response) => {
-          console.log("User denied successfully:", response.data);
-          alert("Account has been denied!");
-
-          // Send denial email with the token
-          axios
-            .post(`http://127.0.0.1:8000/api/user/send-account-denied-email`, {
-              email: userDetails.email,
-              token: token, // Pass the token to the backend
-            })
-            .then((emailResponse) => {
-              console.log(
-                "Denial email sent successfully:",
-                emailResponse.data
-              );
-            })
-            .catch((emailError) => {
-              console.error("Error sending denial email:", emailError);
-            });
-
-          // Fetch updated user details after denial
-          this.fetchUserDetails();
-        })
-        .catch((error) => {
-          console.error("Error denying user:", error);
-        });
+        // Fetch updated user details after approval
+        this.fetchUserDetails();
+      } catch (error) {
+        console.error("Error approving user:", error);
+      }
     },
 
+    async denyUser(userDetails) {
+      try {
+        const adminStore = useAdminStore();
+        const token = adminStore.token;
+
+        userDetails.account_status = 2;
+
+        // Generate a unique token
+        const denialToken = Math.random().toString(36); // Generates a random alphanumeric token
+
+        // Set the generated token to userDetails.token
+        userDetails.token = denialToken;
+
+        const denyResponse = await axios.put(
+          `http://127.0.0.1:8000/api/user/deny/${userDetails.id}`,
+          userDetails,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log("User denied successfully:", denyResponse.data);
+
+        // Send denial email with the token
+        const emailResponse = await axios.post(
+          `http://127.0.0.1:8000/api/user/send-account-denied-email`,
+          {
+            email: userDetails.email,
+            token: denialToken,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log("Denial email sent successfully:", emailResponse.data);
+
+            // Show alert that the account has been denied
+            alert("Account has been denied!");
+
+        // Fetch updated user details after denial
+        this.fetchUserDetails();
+      } catch (error) {
+        console.error("Error denying user:", error);
+      }
+    },
   }, //end before method
 };
 </script>

@@ -104,32 +104,46 @@
   </div>
 
   </template>
-
-<script>
-//Bawal tanggalin ung script tag para makita pa rin display kasi part sya ng default code
+  
+<script> //Bawal tanggalin ung script tag para makita pa rin display kasi part sya ng default code
 import axios from "redaxios";
+import { useAdminStore } from '../../stores/adminStore';
 
-export default { //provides a more modular and organized way to define multiple data properties within a component
-    name: 'UserAccount',
-    data() {
-        return {
-            result: {},
-            showDropdown: false,
-        };
-    },
-  created() { //fetches data from the API when the component is created
+export default {
+  name: 'UserAccount',
+  data() {
+    return {
+      result: {},
+      showDropdown: false,
+    };
+  },
+  created() {
+    // Fetch user account data when the component is created
     this.UserAccountLoad();
   },
-  mounted() {
-    console.log("mounted() called.......");
-  },
-
-  methods: { //responsible for making the API request to fetch user data.
+  methods: {
     UserAccountLoad() {
+      // Access the adminStore to get the token
+      const adminStore = useAdminStore();
+      const token = adminStore.token;
+
+      if (!token) {
+        console.error('Token not available');
+        return;
+      }
+
       var page = "http://127.0.0.1:8000/api/user";
-      axios.get(page).then(({ data }) => {
+      
+      // Make an authenticated API request using the token for authorization
+      axios.get(page, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }).then(({ data }) => {
         console.log(data);
         this.result = data;
+      }).catch(error => {
+        console.error('Error fetching user account data:', error);
       });
     },
     getStatusDisplay(accountStatus) {
@@ -144,7 +158,7 @@ export default { //provides a more modular and organized way to define multiple 
         case 3:
           return "Active";
         default:
-          return accountStatus; // Return status as is if not matched | lalabas lng ung number
+          return accountStatus;// Return status as is if not matched | lalabas lng ung number
       }
     },
     toggle() {
@@ -153,3 +167,4 @@ export default { //provides a more modular and organized way to define multiple 
   },
 };
 </script>
+
