@@ -8,10 +8,17 @@ use Illuminate\Http\Request;
 class LogsController extends Controller
 {
     protected $logs;
+    // public function __construct(){
+    //     $this->logs = new Logs(); //Connecting to User model 
+    // }
     public function __construct(){
-        $this->logs = new Logs(); //Connecting to User model
-        
+        $this->logs = new Logs(); //Connecting to User model 
     }
+    // public function index()
+    // {
+    //     return $this->logs->with('admin')->get();  // Connecting it with the users table
+    // }
+
     public function index()
     {
         return $this->logs->with('user')->get();  // Connecting it with the users table

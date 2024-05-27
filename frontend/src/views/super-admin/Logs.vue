@@ -16,6 +16,7 @@
           <td>{{ log.logs_id }}</td>
 		  <!-- Joined table from users table -->
 		  <td>{{ log.user && `${log.user.first_name} ${log.user.last_name}` }}</td>
+      <!-- <td>{{ log.admin && `${log.admin.first_name} ${log.admin.last_name}` }}</td> -->
           <td>{{ log.action }}</td>
           <td>{{ log.created_at }}</td>
         </tr>

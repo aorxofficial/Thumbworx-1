@@ -156,7 +156,13 @@ export default {
         case 2:
           return "Denied";
         case 3:
-          return "Active";
+          return "Terminated";
+        case 4:
+          return "Cancelled";
+        case 5:
+          return "Blocked";
+        case 6:
+          return "Freezed";
         default:
           return accountStatus;// Return status as is if not matched | lalabas lng ung number
       }
