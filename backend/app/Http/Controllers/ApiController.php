@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RegistrationRequest;
 use Illuminate\Http\Request;
 
 use App\Http\Controllers\Controller;
@@ -39,6 +40,12 @@ class ApiController extends Controller
         return response()->json([
             "status" => false,
             "message" => "Invalid details"
+        ]);
+    }
+
+    public function register(RegistrationRequest $request) {
+        return response()->json([
+            "message" => "Bling Bang Bang Born"
         ]);
     }
     
