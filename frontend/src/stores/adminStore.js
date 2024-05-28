@@ -1,6 +1,5 @@
 import { defineStore } from "pinia";
 import axios from 'redaxios';
-import { useRoute, useRouter } from "vue-router";
 import { jwtDecode }from 'jwt-decode';
 
 export const useAdminStore = defineStore('user', {
