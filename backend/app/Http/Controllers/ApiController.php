@@ -45,7 +45,7 @@ class ApiController extends Controller
 
     public function register(RegistrationRequest $request) {
         return response()->json([
-            "message" => "Bling Bang Bang Born"
+            "message" => "Form valid"
         ]);
     }
     
