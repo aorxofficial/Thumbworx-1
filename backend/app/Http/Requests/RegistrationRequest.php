@@ -16,57 +16,69 @@ class RegistrationRequest extends FormRequest
         return true;
     }
 
-    protected function prepareForValidation()
-    {
-        $personalInfo = [
-            'first_name' => strip_tags($this->input('personal_info.first_name')),
-            'last_name' => strip_tags($this->input('personal_info.last_name')),
-            'middle_name' => strip_tags($this->input('personal_info.middle_name')),
-            'email' => strip_tags($this->input('personal_info.email')),
-            // other personal_info fields without strip_tags for dropdowns and dates
-        ];
-    
-        $permanentAddress = [
-            'house_number' => strip_tags($this->input('permanent_address.house_number')),
-            'street' => strip_tags($this->input('permanent_address.street')),
-            'barangay' => strip_tags($this->input('permanent_address.barangay')),
-            'city' => strip_tags($this->input('permanent_address.city')),
-            'province' => strip_tags($this->input('permanent_address.province')),
-            'region' => strip_tags($this->input('permanent_address.region')),
-            'country' => strip_tags($this->input('permanent_address.country')),
-        ];
-    
-        $currentAddress = [
-            'house_number' => strip_tags($this->input('current_address.house_number')),
-            'street' => strip_tags($this->input('current_address.street')),
-            'barangay' => strip_tags($this->input('current_address.barangay')),
-            'city' => strip_tags($this->input('current_address.city')),
-            'province' => strip_tags($this->input('current_address.province')),
-            'region' => strip_tags($this->input('current_address.region')),
-            'country' => strip_tags($this->input('current_address.country')),
-        ];
-    
-        $emergencyContact = [];
-        if ($this->input('personal_info.user_type') === 'driver') {
-            $emergencyContact = [
-                'full_name' => strip_tags($this->input('emergency_contact.full_name')),
-                'relationship' => strip_tags($this->input('emergency_contact.relationship')),
-                'phone_number' => strip_tags($this->input('emergency_contact.phone_number')),
-                'email' => strip_tags($this->input('emergency_contact.email')),
-                'address' => strip_tags($this->input('emergency_contact.address')),
+        protected function prepareForValidation()
+        {
+            $personalInfo = [
+                'first_name' => strip_tags($this->input('personal_info.first_name')),
+                'last_name' => strip_tags($this->input('personal_info.last_name')),
+                'middle_name' => strip_tags($this->input('personal_info.middle_name')),
+                'email' => strip_tags($this->input('personal_info.email')),
             ];
+
+            // $permanentAddress = [
+            //     'house_number' => strip_tags($this->input('permanent_address.house_number')),
+            //     'street' => strip_tags($this->input('permanent_address.street')),
+            //     'barangay' => strip_tags($this->input('permanent_address.barangay')),
+            //     'city' => strip_tags($this->input('permanent_address.city')),
+            //     'province' => strip_tags($this->input('permanent_address.province')),
+            //     'region' => strip_tags($this->input('permanent_address.region')),
+            //     'country' => strip_tags($this->input('permanent_address.country')),
+            // ];
+
+            // $currentAddress = [
+            //     'house_number' => strip_tags($this->input('current_address.house_number')),
+            //     'street' => strip_tags($this->input('current_address.street')),
+            //     'barangay' => strip_tags($this->input('current_address.barangay')),
+            //     'city' => strip_tags($this->input('current_address.city')),
+            //     'province' => strip_tags($this->input('current_address.province')),
+            //     'region' => strip_tags($this->input('current_address.region')),
+            //     'country' => strip_tags($this->input('current_address.country')),
+            // ];
+
+        //     // $emergencyContact = [];
+        //     // if ($this->input('personal_info.user_type') === 'driver') {
+        //     //     $emergencyContact = [
+        //     //         'full_name' => strip_tags($this->input('emergency_contact.full_name')),
+        //     //         'relationship' => strip_tags($this->input('emergency_contact.relationship')),
+        //     //         'phone_number' => strip_tags($this->input('emergency_contact.phone_number')),
+        //     //         'email' => strip_tags($this->input('emergency_contact.email')),
+        //     //         'address' => strip_tags($this->input('emergency_contact.address')),
+        //     //     ];
+        //     // }
+
+        //     // // Merge data only if emergency contact is not empty
+            // $dataToMerge = [
+                    // 'personal_info' => array_merge($this->input('personal_info'), $personalInfo)
+        //     //     'permanent_address' => $permanentAddress,
+        //     //     'current_address' => $currentAddress,
+        //     // ];
+        //     // if (!empty($emergencyContact)) {
+        //     //     $dataToMerge['emergency_contact'] = $emergencyContact;
+        //     // }
+            $dataToMerge = [
+                'personal_info' => array_merge($this->input('personal_info'), $personalInfo)
+            ];
+
+            $this->merge($dataToMerge);
+
+            Log::info(
+                "After merging "  . json_encode($this->all())
+            );
         }
-    
-        $this->merge([
-            'personal_info' => $personalInfo,
-            'permanent_address' => $permanentAddress,
-            'current_address' => $currentAddress,
-            'emergency_contact' => $emergencyContact,
-        ]);
-    }
     
     protected function withValidator($validator)
     {
+        Log::info("An after problem?");
         $validator->after(function ($validator) {
             if ($this->has('personal_info.birth_date')) {
                 $birthdate = Carbon::parse($this->input('personal_info.birth_date'));
@@ -108,8 +120,10 @@ class RegistrationRequest extends FormRequest
             "current_address.city" => "required|string|max:100",
             "current_address.province" => "required|string|max:100",
             "current_address.region" => "required|string|max:100",
-            "current_address.country" => "required|string|max:100",
+            "current_address.country" => "required|string|max:100"
         ];
+
+        Log::info($this);
 
         
         if ($this->input('personal_info.user_type') === 'driver') {
@@ -118,7 +132,7 @@ class RegistrationRequest extends FormRequest
                 "emergency_contact.relationship" => "required|string|max:100",
                 "emergency_contact.phone_number" => "required|string|max:12",
                 "emergency_contact.email" => "required|email",
-                "emergency_contact.address" => "required|string|max:255",
+                "emergency_contact.address" => "required|string|max:255"
                 // "driver.nbi_license" => "required|file",
                 // "driver.license" => "required|file",
                 // "driver.lto_driving_history" => "required|file"
@@ -132,6 +146,8 @@ class RegistrationRequest extends FormRequest
                 // "client_document" => 'required|file|mimes:pdf,doc,docx|max:2048',
             ]);
         }
+
+        Log::info("Setting up data");
 
         return $rules;
     }

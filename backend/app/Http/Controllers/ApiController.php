@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User; //IMPORTING THE USER MODEL CLASS | Hindi ginamit dito kasi walang register
 use Illuminate\Support\Facades\Hash; //Hashing the password | Hindi rin ginamit dito kasi sa register of password eto. Maybe sa UserController pwede
 use Tymon\JWTAuth\Facades\JWTAuth; 
+use Illuminate\Support\Facades\Log;
 
 class ApiController extends Controller
 {
@@ -43,9 +44,19 @@ class ApiController extends Controller
         ]);
     }
 
+    public function createDriver(Request $request) {
+
+    }
+
+
     public function register(RegistrationRequest $request) {
+        
+        $user = User::create($request->input('personal_info'));
+        Log::info("Got here");
+
         return response()->json([
-            "message" => "Form valid"
+            "message" => "Form valid",
+            // 'user' => $user,
         ]);
     }
     
