@@ -118,6 +118,34 @@ class UserController extends Controller
         return $user;
     }
 
+    public function terminateAccount(string $id)
+    {
+        $user = $this->user->find($id); //  $this->user is User model instance
+        $user->update(['account_status' => 3]); 
+        return $user;
+    }
+
+    public function cancelAccount(string $id)
+    {
+        $user = $this->user->find($id); //  $this->user is User model instance
+        $user->update(['account_status' => 4]); 
+        return $user;
+    }
+
+    public function blockAccount(string $id)
+    {
+        $user = $this->user->find($id); //  $this->user is User model instance
+        $user->update(['account_status' => 5]); 
+        return $user;
+    }
+
+    public function freezeAccount(string $id)
+    {
+        $user = $this->user->find($id); //  $this->user is User model instance
+        $user->update(['account_status' => 6]); 
+        return $user;
+    }
+
 
 
 }

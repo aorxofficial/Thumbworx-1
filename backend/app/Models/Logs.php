@@ -21,12 +21,12 @@ class Logs extends Model
 
         public function admin()
         {
-            return $this->belongsTo(Admin::class);
+            return $this->belongsTo(Admin::class, 'admin_id'); //Use admin_id to connect it as foreign key.
         }
 
         public function user()
         {
-            return $this->belongsTo(User::class);
+            return $this->belongsTo(User::class,);
         }
     
 }

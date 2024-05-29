@@ -35,6 +35,11 @@ Route::middleware('auth:admin')->group(function () {
         Route::get('/validate-token/{token}', [UserController::class, 'validateToken']);
         Route::post('/generate-random-password/{id}', [UserController::class, 'generateRandomPassword']);
         Route::put('/account-recover/{id}', [UserController::class, 'accountRecover']);
+
+        Route::put('/terminate/{id}', [UserController::class, 'terminateAccount']);
+        Route::put('/cancel/{id}', [UserController::class, 'cancelAccount']);
+        Route::put('/block/{id}', [UserController::class, 'blockAccount']);
+        Route::put('/freeze/{id}', [UserController::class, 'freezeAccount']);
     
         // Dashboard routes
         Route::get('/total-client-users-count', [UserController::class, 'getTotalClientUsersCount']);
