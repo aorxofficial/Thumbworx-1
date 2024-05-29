@@ -16,65 +16,59 @@ class RegistrationRequest extends FormRequest
         return true;
     }
 
-        protected function prepareForValidation()
-        {
-            $personalInfo = [
-                'first_name' => strip_tags($this->input('personal_info.first_name')),
-                'last_name' => strip_tags($this->input('personal_info.last_name')),
-                'middle_name' => strip_tags($this->input('personal_info.middle_name')),
-                'email' => strip_tags($this->input('personal_info.email')),
-            ];
+    protected function prepareForValidation()
+    {
+        $personalInfo = [
+            'first_name' => strip_tags($this->input('personal_info.first_name')),
+            'last_name' => strip_tags($this->input('personal_info.last_name')),
+            'middle_name' => strip_tags($this->input('personal_info.middle_name')),
+            'email' => strip_tags($this->input('personal_info.email')),
+        ];
 
-            // $permanentAddress = [
-            //     'house_number' => strip_tags($this->input('permanent_address.house_number')),
-            //     'street' => strip_tags($this->input('permanent_address.street')),
-            //     'barangay' => strip_tags($this->input('permanent_address.barangay')),
-            //     'city' => strip_tags($this->input('permanent_address.city')),
-            //     'province' => strip_tags($this->input('permanent_address.province')),
-            //     'region' => strip_tags($this->input('permanent_address.region')),
-            //     'country' => strip_tags($this->input('permanent_address.country')),
-            // ];
+        $permanentAddress = [
+            'house_number' => strip_tags($this->input('permanent_address.house_number')),
+            'street' => strip_tags($this->input('permanent_address.street')),
+            'barangay' => strip_tags($this->input('permanent_address.barangay')),
+            'city' => strip_tags($this->input('permanent_address.city')),
+            'province' => strip_tags($this->input('permanent_address.province')),
+            'region' => strip_tags($this->input('permanent_address.region')),
+            'country' => strip_tags($this->input('permanent_address.country')),
+        ];
 
-            // $currentAddress = [
-            //     'house_number' => strip_tags($this->input('current_address.house_number')),
-            //     'street' => strip_tags($this->input('current_address.street')),
-            //     'barangay' => strip_tags($this->input('current_address.barangay')),
-            //     'city' => strip_tags($this->input('current_address.city')),
-            //     'province' => strip_tags($this->input('current_address.province')),
-            //     'region' => strip_tags($this->input('current_address.region')),
-            //     'country' => strip_tags($this->input('current_address.country')),
-            // ];
+        $currentAddress = [
+            'house_number' => strip_tags($this->input('current_address.house_number')),
+            'street' => strip_tags($this->input('current_address.street')),
+            'barangay' => strip_tags($this->input('current_address.barangay')),
+            'city' => strip_tags($this->input('current_address.city')),
+            'province' => strip_tags($this->input('current_address.province')),
+            'region' => strip_tags($this->input('current_address.region')),
+            'country' => strip_tags($this->input('current_address.country')),
+        ];
 
-        //     // $emergencyContact = [];
-        //     // if ($this->input('personal_info.user_type') === 'driver') {
-        //     //     $emergencyContact = [
-        //     //         'full_name' => strip_tags($this->input('emergency_contact.full_name')),
-        //     //         'relationship' => strip_tags($this->input('emergency_contact.relationship')),
-        //     //         'phone_number' => strip_tags($this->input('emergency_contact.phone_number')),
-        //     //         'email' => strip_tags($this->input('emergency_contact.email')),
-        //     //         'address' => strip_tags($this->input('emergency_contact.address')),
-        //     //     ];
-        //     // }
+    //     // $emergencyContact = [];
+    //     // if ($this->input('personal_info.user_type') === 'driver') {
+    //     //     $emergencyContact = [
+    //     //         'full_name' => strip_tags($this->input('emergency_contact.full_name')),
+    //     //         'relationship' => strip_tags($this->input('emergency_contact.relationship')),
+    //     //         'phone_number' => strip_tags($this->input('emergency_contact.phone_number')),
+    //     //         'email' => strip_tags($this->input('emergency_contact.email')),
+    //     //         'address' => strip_tags($this->input('emergency_contact.address')),
+    //     //     ];
+    //     // }
 
-        //     // // Merge data only if emergency contact is not empty
-            // $dataToMerge = [
-                    // 'personal_info' => array_merge($this->input('personal_info'), $personalInfo)
-        //     //     'permanent_address' => $permanentAddress,
-        //     //     'current_address' => $currentAddress,
-        //     // ];
-        //     // if (!empty($emergencyContact)) {
-        //     //     $dataToMerge['emergency_contact'] = $emergencyContact;
-        //     // }
-            $dataToMerge = [
-                'personal_info' => array_merge($this->input('personal_info'), $personalInfo)
-            ];
+        $dataToMerge = [
+            'personal_info' => array_merge($this->input('personal_info'), $personalInfo),
+            'permanent_address' => $permanentAddress,
+            'current_address' => $currentAddress
+        ];
 
-            $this->merge($dataToMerge);
+        // if (!empty($emergencyContact)) {
+        //     $dataToMerge['emergency_contact'] = $emergencyContact;
+        // }
 
-            Log::info(
-                "After merging "  . json_encode($this->all())
-            );
-        }
+        $this->merge($dataToMerge);
+        Log::info("After merging "  . json_encode($this->all()));
+    }
     
     protected function withValidator($validator)
     {

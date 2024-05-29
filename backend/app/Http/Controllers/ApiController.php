@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RegistrationRequest;
+use App\Models\CurrentAddress;
 use Illuminate\Http\Request;
 
 use App\Http\Controllers\Controller;
@@ -52,7 +53,19 @@ class ApiController extends Controller
     public function register(RegistrationRequest $request) {
         
         $user = User::create($request->input('personal_info'));
-        Log::info("Got here");
+        $currentAddressInput = $request->input('current_address');
+        
+        $currentAddressInput = [
+            'cur_house_number' => $currentAddressInput['house_number'],
+            'cur_street' => $currentAddressInput['street'],
+            'cur_barangay' => $currentAddressInput['barangay'],
+            'cur_city' => $currentAddressInput['city'],
+            'cur_province' => $currentAddressInput['province'],
+            'cur_region' => $currentAddressInput['region'],
+            'cur_country' => $currentAddressInput['country'],
+        ];
+
+        $user->currentAddress()->create($currentAddressInput);
 
         return response()->json([
             "message" => "Form valid",
