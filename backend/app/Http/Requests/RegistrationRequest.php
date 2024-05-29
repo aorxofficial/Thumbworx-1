@@ -45,16 +45,16 @@ class RegistrationRequest extends FormRequest
             'country' => strip_tags($this->input('current_address.country')),
         ];
 
-    //     // $emergencyContact = [];
-    //     // if ($this->input('personal_info.user_type') === 'driver') {
-    //     //     $emergencyContact = [
-    //     //         'full_name' => strip_tags($this->input('emergency_contact.full_name')),
-    //     //         'relationship' => strip_tags($this->input('emergency_contact.relationship')),
-    //     //         'phone_number' => strip_tags($this->input('emergency_contact.phone_number')),
-    //     //         'email' => strip_tags($this->input('emergency_contact.email')),
-    //     //         'address' => strip_tags($this->input('emergency_contact.address')),
-    //     //     ];
-    //     // }
+        $emergencyContact = [];
+        if ($this->input('personal_info.user_type') === 'driver') {
+            $emergencyContact = [
+                'contact_person' => strip_tags($this->input('driver.contact_person')),
+                'contact_person_relationship' => strip_tags($this->input('driver.contact_person_relationship')),
+                'contact_person_phone_number' => strip_tags($this->input('driver.contact_person_phone_number')),
+                'contact_person_email' => strip_tags($this->input('driver.contact_person_email')),
+                'contact_person_address' => strip_tags($this->input('driver.contact_person_address')),
+            ];
+        }
 
         $dataToMerge = [
             'personal_info' => array_merge($this->input('personal_info'), $personalInfo),
@@ -62,12 +62,11 @@ class RegistrationRequest extends FormRequest
             'current_address' => $currentAddress
         ];
 
-        // if (!empty($emergencyContact)) {
-        //     $dataToMerge['emergency_contact'] = $emergencyContact;
-        // }
+        if (!empty($emergencyContact)) {
+            $dataToMerge['emergency_contact'] = $emergencyContact;
+        }
 
         $this->merge($dataToMerge);
-        Log::info("After merging "  . json_encode($this->all()));
     }
     
     protected function withValidator($validator)
@@ -117,16 +116,13 @@ class RegistrationRequest extends FormRequest
             "current_address.country" => "required|string|max:100"
         ];
 
-        Log::info($this);
-
-        
         if ($this->input('personal_info.user_type') === 'driver') {
             $rules = array_merge($rules, [
-                "emergency_contact.full_name" => "required|string|max:100",
-                "emergency_contact.relationship" => "required|string|max:100",
-                "emergency_contact.phone_number" => "required|string|max:12",
-                "emergency_contact.email" => "required|email",
-                "emergency_contact.address" => "required|string|max:255"
+                "driver.contact_person" => "required|string|max:100",
+                "driver.contact_person_relationship" => "required|string|max:100",
+                "driver.contact_person_phone_number" => "required|string|max:12",
+                "driver.contact_person_email" => "required|email",
+                "driver.contact_person_address" => "required|string|max:255"
                 // "driver.nbi_license" => "required|file",
                 // "driver.license" => "required|file",
                 // "driver.lto_driving_history" => "required|file"
@@ -140,8 +136,6 @@ class RegistrationRequest extends FormRequest
                 // "client_document" => 'required|file|mimes:pdf,doc,docx|max:2048',
             ]);
         }
-
-        Log::info("Setting up data");
 
         return $rules;
     }

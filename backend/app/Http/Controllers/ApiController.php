@@ -15,9 +15,8 @@ use Illuminate\Support\Facades\Log;
 class ApiController extends Controller
 {
       // Login API (POST, formdat) | Open methods
-      public function login(Request $request){
-        
-        // data validation | Sa form eto
+      public function login(Request $request)
+      {
         $request->validate([ 
             "email" => "required|email",
             "password" => "required"
@@ -50,9 +49,12 @@ class ApiController extends Controller
     }
 
 
-    public function register(RegistrationRequest $request) {
+    public function register(RegistrationRequest $request)
+    {    
+
+        $userData = $request->input('personal_info');
+        $user = User::create($userData);
         
-        $user = User::create($request->input('personal_info'));
         $currentAddressInput = $request->input('current_address');
         $permanentAddressInput = $request->input('permanent_address');
         
@@ -79,9 +81,13 @@ class ApiController extends Controller
         $user->currentAddress()->create($currentAddressData);
         $user->permanentAddress()->create($permanentAddressData);
 
+        if ($userData['user_type'] == "driver") {
+            $user->driver()->create($request->input('driver'));
+        }
+
         return response()->json([
             "message" => "Form valid",
-            'user' => $user,
+            'user' => $user->load(['currentAddress', 'permanentAddress']),
         ]);
     }
     

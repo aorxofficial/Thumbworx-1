@@ -38,22 +38,6 @@ class User extends Authenticatable implements JWTSubject
         'password',
         'email_verified_at',
         'remember_token',
-        // 'per_house_number',
-        // 'per_street',
-        // 'per_barangay',
-        // 'per_city',
-        // 'per_province',
-        // 'per_region',
-        // 'per_country',
-        // 'per_zip_code',
-        // 'cur_house_number',
-        // 'cur_street',
-        // 'cur_barangay',
-        // 'cur_city',
-        // 'cur_province',
-        // 'cur_region',
-        // 'cur_country',
-        // 'cur_zip_code',
         // 'full_name',
         // 'relationship',
         // 'rel_phone_number',
@@ -96,6 +80,11 @@ class User extends Authenticatable implements JWTSubject
     public function permanentAddress()
     {
       return $this->hasOne(PermanentAddress::class);
+    }
+
+    public function driver()
+    {
+      return $this->hasOne(Driver::class);
     }
 
     public function getJWTIdentifier()
