@@ -93,6 +93,11 @@ class User extends Authenticatable implements JWTSubject
       return $this->hasOne(CurrentAddress::class);
     }
 
+    public function permanentAddress()
+    {
+      return $this->hasOne(PermanentAddress::class);
+    }
+
     public function getJWTIdentifier()
     {
       return $this->getKey();

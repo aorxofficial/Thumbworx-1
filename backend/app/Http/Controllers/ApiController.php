@@ -54,8 +54,9 @@ class ApiController extends Controller
         
         $user = User::create($request->input('personal_info'));
         $currentAddressInput = $request->input('current_address');
+        $permanentAddressInput = $request->input('permanent_address');
         
-        $currentAddressInput = [
+        $currentAddressData = [
             'cur_house_number' => $currentAddressInput['house_number'],
             'cur_street' => $currentAddressInput['street'],
             'cur_barangay' => $currentAddressInput['barangay'],
@@ -65,11 +66,22 @@ class ApiController extends Controller
             'cur_country' => $currentAddressInput['country'],
         ];
 
-        $user->currentAddress()->create($currentAddressInput);
+        $permanentAddressData = [
+            'per_house_number' => $permanentAddressInput['house_number'],
+            'per_street' => $permanentAddressInput['street'],
+            'per_barangay' => $permanentAddressInput['barangay'],
+            'per_city' => $permanentAddressInput['city'],
+            'per_province' => $permanentAddressInput['province'],
+            'per_region' => $permanentAddressInput['region'],
+            'per_country' => $permanentAddressInput['country'],
+        ];
+
+        $user->currentAddress()->create($currentAddressData);
+        $user->permanentAddress()->create($permanentAddressData);
 
         return response()->json([
             "message" => "Form valid",
-            // 'user' => $user,
+            'user' => $user,
         ]);
     }
     
