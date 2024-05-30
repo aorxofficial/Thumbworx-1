@@ -82,6 +82,8 @@ class ApiController extends Controller
 
         if ($userData['user_type'] == "driver") {
             $user->driver()->create($request->input('driver'));
+        } elseif ($userData['user_type'] == "client") {
+            $user->client()->create($request->input('client'));
         }
 
         $token = JWTAuth::fromUser($user);

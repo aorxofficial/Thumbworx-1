@@ -44,9 +44,14 @@ class RegistrationRequest extends FormRequest
             'region' => strip_tags($this->input('current_address.region')),
             'country' => strip_tags($this->input('current_address.country')),
         ];
+        
+        $dataToMerge = [
+            'personal_info' => array_merge($this->input('personal_info'), $personalInfo),
+            'permanent_address' => $permanentAddress,
+            'current_address' => $currentAddress
+        ];
 
-        $emergencyContact = [];
-        if ($this->input('personal_info.user_type') === 'driver') {
+        if ($this->input('personal_info.user_type') == 'driver') {
             $emergencyContact = [
                 'contact_person' => strip_tags($this->input('driver.contact_person')),
                 'contact_person_relationship' => strip_tags($this->input('driver.contact_person_relationship')),
@@ -54,16 +59,17 @@ class RegistrationRequest extends FormRequest
                 'contact_person_email' => strip_tags($this->input('driver.contact_person_email')),
                 'contact_person_address' => strip_tags($this->input('driver.contact_person_address')),
             ];
-        }
 
-        $dataToMerge = [
-            'personal_info' => array_merge($this->input('personal_info'), $personalInfo),
-            'permanent_address' => $permanentAddress,
-            'current_address' => $currentAddress
-        ];
+            $dataToMerge['driver'] = $emergencyContact;
+        
+        } else if ($this->input('personal_info.user_type') == 'client') {
+            $companyContact = [
+                'company_name' => strip_tags($this->input('client.company_name')),
+                'company_telephone_number' => strip_tags($this->input('client.company_telephone_number')),
+                'company_address' => strip_tags($this->input('client.company_address')),
+            ];
 
-        if (!empty($emergencyContact)) {
-            $dataToMerge['emergency_contact'] = $emergencyContact;
+            $dataToMerge['client'] = $companyContact;
         }
 
         $this->merge($dataToMerge);
@@ -131,7 +137,9 @@ class RegistrationRequest extends FormRequest
 
         if ($this->input('personal_info.user_type') === 'client') {
             $rules = array_merge($rules, [
-                // "company_name" => 'required|string|max:255',
+                "client.company_name" => "required|string|max:255",
+                "client.company_telephone_number" => "required|string",
+                "client.company_address" => "required|string",
                 // "company_registration_number" => 'required|string|max:50',
                 // "client_document" => 'required|file|mimes:pdf,doc,docx|max:2048',
             ]);
