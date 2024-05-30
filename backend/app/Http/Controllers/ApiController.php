@@ -51,7 +51,6 @@ class ApiController extends Controller
 
     public function register(RegistrationRequest $request)
     {    
-
         $userData = $request->input('personal_info');
         $user = User::create($userData);
         
@@ -85,9 +84,12 @@ class ApiController extends Controller
             $user->driver()->create($request->input('driver'));
         }
 
+        $token = JWTAuth::fromUser($user);
+
         return response()->json([
             "message" => "Form valid",
             'user' => $user->load(['currentAddress', 'permanentAddress']),
+            'token' => $token,
         ]);
     }
     
