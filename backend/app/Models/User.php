@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -37,22 +38,6 @@ class User extends Authenticatable implements JWTSubject
         'password',
         'email_verified_at',
         'remember_token',
-        // 'per_house_number',
-        // 'per_street',
-        // 'per_barangay',
-        // 'per_city',
-        // 'per_province',
-        // 'per_region',
-        // 'per_country',
-        // 'per_zip_code',
-        // 'cur_house_number',
-        // 'cur_street',
-        // 'cur_barangay',
-        // 'cur_city',
-        // 'cur_province',
-        // 'cur_region',
-        // 'cur_country',
-        // 'cur_zip_code',
         // 'full_name',
         // 'relationship',
         // 'rel_phone_number',
@@ -87,6 +72,25 @@ class User extends Authenticatable implements JWTSubject
         'email_verified_at' => 'datetime',
     ];
 
+    public function currentAddress()
+    {
+      return $this->hasOne(CurrentAddress::class);
+    }
+
+    public function permanentAddress()
+    {
+      return $this->hasOne(PermanentAddress::class);
+    }
+
+    public function driver()
+    {
+      return $this->hasOne(Driver::class);
+    }
+    public function client()
+    {
+      return $this->hasOne(Client::class);
+    }
+
     public function getJWTIdentifier()
     {
       return $this->getKey();
@@ -94,6 +98,12 @@ class User extends Authenticatable implements JWTSubject
 
     public function getJWTCustomClaims()
     {
-      return [];
+      return [
+        'user' => [
+            'id' => $this->id,
+            'email'=> $this->email,
+            'user_type' => $this->user_type,
+        ]
+    ];
     }
 }
