@@ -27,14 +27,20 @@ const routes = [
     name: 'Registration',
   },
   {
-    path: '/',
+    path: '/logins',
+    component: Logins,
+    meta: { sidebar: false },
+    name: 'Logins',
+  },
+  {
+    path: '/admin/',
     component: DefaultLayout,
     children: [
       {
         path: 'dashboard',
         component: Dashboard,
         name: 'Dashboard',
-        meta: { requiresAuth: false, sidebar: true },
+        meta: { requiresAuth: true, sidebar: true },
       },
       {
         path: 'user-account',
@@ -65,7 +71,7 @@ const routes = [
         path: 'account-recover',
         component: AccountRecover,
         name: 'AccountRecover',
-        meta: { requiresAuth: false, sidebar: true },
+        meta: { requiresAuth: true, sidebar: true },
       },
       {
         path: 'landing-page',
@@ -79,12 +85,7 @@ const routes = [
         name: 'Header',
         meta: { requiresAuth: false, sidebar: true },
       },
-      {
-        path: 'logins',
-        component: Logins,
-        meta: { sidebar: false },
-        name: 'Logins',
-      }
+      
         ],
   },
   {
@@ -99,15 +100,18 @@ const router = createRouter({
 });
 router.beforeEach((to, from, next) => {
   const isAuthenticated = localStorage.getItem('token');
-  const userType = localStorage.getItem('userType'); // Assuming userType is stored in localStorage
+  // const userType = localStorage.getItem('userType'); // Assuming userType is stored in localStorage
 
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (!isAuthenticated) {
+      console.log("This triggers");
       next({ name: 'Login' });
     } else {
+      console.log("So it did match something")
       next();
     }
   } else {
+    console.log("What")
     next();
   }
 });

@@ -12,20 +12,20 @@
 
 		<h3>Menu</h3>
 		<div class="menu">
-			<router-link to="/Dashboard" class="button">
+			<router-link to="/admin/dashboard" class="button">
 				<span class="material-icons">dashboard</span>
 				<span class="text">Dashboard</span>
 			</router-link>
-			<router-link to="/UserAccount" class="button">
+			<router-link to="/admin/user-account" class="button">
 				<!-- material-icons = icon-->
 				<span class="material-icons">group</span> 
 				<span class="text">Account</span>
 			</router-link>
-			<router-link to="/Logs" class="button">
+			<router-link to="/admin/logs" class="button">
 				<span class="material-icons">description</span>
 				<span class="text">Logs</span>
 			</router-link>
-			<router-link to="/AccountRecover" class="button">
+			<router-link to="/admin/account-recover" class="button">
 				<span class="material-icons">group</span>
 				<span class="text">Account Recovery</span>
 			</router-link>

@@ -1,32 +1,32 @@
 <template>
-  <div class="max-w-3xl mx-auto py-8">
-    <div class="bg-blue shadow-md rounded-lg p-6">
+  <div class="max-w-3xl py-8 mx-auto">
+    <div class="p-6 rounded-lg shadow-md bg-blue">
       <div v-if="step === 1">
         <!-- First Step Form -->
-        <h2 class="text-xl font-bold mb-4">Step 1: Basic Information</h2>
+        <h2 class="mb-4 text-xl font-bold">Step 1: Basic Information</h2>
         <form @submit.prevent="nextStep">
           <div class="mb-4">
             <label class="block text-gray-700">User Type</label>
-            <select v-model="form.usertype" class="form-select mt-1 block w-full">
+            <select v-model="form.usertype" class="block w-full mt-1 form-select">
               <option value="driver">Driver</option>
               <option value="client">Client</option>
             </select>
           </div>
           <div class="mb-4">
             <label class="block text-gray-700">First Name</label>
-            <input v-model="form.firstname" type="text" class="form-input mt-1 block w-full" />
+            <input v-model="form.firstname" type="text" class="block w-full mt-1 form-input" />
           </div>
           <div class="mb-4">
             <label class="block text-gray-700">Last Name</label>
-            <input v-model="form.lastname" type="text" class="form-input mt-1 block w-full" />
+            <input v-model="form.lastname" type="text" class="block w-full mt-1 form-input" />
           </div>
           <div class="mb-4">
             <label class="block text-gray-700">Middle Name</label>
-            <input v-model="form.middlename" type="text" class="form-input mt-1 block w-full" />
+            <input v-model="form.middlename" type="text" class="block w-full mt-1 form-input" />
           </div>
           <div class="mb-4">
             <label class="block text-gray-700">Email</label>
-            <input v-model="form.email" type="email" class="form-input mt-1 block w-full" />
+            <input v-model="form.email" type="email" class="block w-full mt-1 form-input" />
           </div>
           <div class="mb-4">
             <label class="block text-gray-700">Gender</label>
@@ -47,82 +47,78 @@
           </div>
           <div class="mb-4">
             <label class="block text-gray-700">Phone Number</label>
-            <input v-model="form.phoneNumber" type="text" class="form-input mt-1 block w-full" />
+            <input v-model="form.phoneNumber" type="text" class="block w-full mt-1 form-input" />
           </div>
           <div class="mb-4">
             <label class="block text-gray-700">Permanent Address</label>
-            <input v-model="form.permanentAddress.homenumber" type="text" placeholder="Home Number" class="form-input mt-1 block w-full" />
-            <input v-model="form.permanentAddress.street" type="text" placeholder="Street" class="form-input mt-1 block w-full" />
-            <input v-model="form.permanentAddress.barangay" type="text" placeholder="Barangay" class="form-input mt-1 block w-full" />
-            <input v-model="form.permanentAddress.city" type="text" placeholder="City" class="form-input mt-1 block w-full" />
-            <input v-model="form.permanentAddress.province" type="text" placeholder="Province" class="form-input mt-1 block w-full" />
-            <input v-model="form.permanentAddress.region" type="text" placeholder="Region" class="form-input mt-1 block w-full" />
+            <input v-model="form.permanentAddress.homenumber" type="text" placeholder="Home Number" class="block w-full mt-1 form-input" />
+            <input v-model="form.permanentAddress.street" type="text" placeholder="Street" class="block w-full mt-1 form-input" />
+            <input v-model="form.permanentAddress.barangay" type="text" placeholder="Barangay" class="block w-full mt-1 form-input" />
+            <input v-model="form.permanentAddress.city" type="text" placeholder="City" class="block w-full mt-1 form-input" />
+            <input v-model="form.permanentAddress.province" type="text" placeholder="Province" class="block w-full mt-1 form-input" />
+            <input v-model="form.permanentAddress.region" type="text" placeholder="Region" class="block w-full mt-1 form-input" />
           </div>
           <div class="mb-4">
             <label class="block text-gray-700">Current Address</label>
-            <input v-model="form.currentAddress.homenumber" type="text" placeholder="Home Number" class="form-input mt-1 block w-full" />
-            <input v-model="form.currentAddress.street" type="text" placeholder="Street" class="form-input mt-1 block w-full" />
-            <input v-model="form.currentAddress.barangay" type="text" placeholder="Barangay" class="form-input mt-1 block w-full" />
-            <input v-model="form.currentAddress.city" type="text" placeholder="City" class="form-input mt-1 block w-full" />
-            <input v-model="form.currentAddress.province" type="text" placeholder="Province" class="form-input mt-1 block w-full" />
-            <input v-model="form.currentAddress.region" type="text" placeholder="Region" class="form-input mt-1 block w-full" />
+            <input v-model="form.currentAddress.homenumber" type="text" placeholder="Home Number" class="block w-full mt-1 form-input" />
+            <input v-model="form.currentAddress.street" type="text" placeholder="Street" class="block w-full mt-1 form-input" />
+            <input v-model="form.currentAddress.barangay" type="text" placeholder="Barangay" class="block w-full mt-1 form-input" />
+            <input v-model="form.currentAddress.city" type="text" placeholder="City" class="block w-full mt-1 form-input" />
+            <input v-model="form.currentAddress.province" type="text" placeholder="Province" class="block w-full mt-1 form-input" />
+            <input v-model="form.currentAddress.region" type="text" placeholder="Region" class="block w-full mt-1 form-input" />
           </div>
-          <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Next</button>
+          <button type="submit" class="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">Next</button>
         </form>
       </div>
       <div v-else-if="step === 2">
         <!-- Second Step Form -->
-        <h2 class="text-xl font-bold mb-4">Step 2: Additional Information (Driver Only)</h2>
+        <h2 class="mb-4 text-xl font-bold">Step 2: Additional Information (Driver Only)</h2>
         <form @submit.prevent="submitForm">
   
         <div class="mb-4">
             <label class="block text-gray-700">Permanent Address</label>
-            <input v-model="form.permanentAddress.homenumber" type="text" placeholder="Home Number" class="form-input mt-1 block w-full" />
-            <input v-model="form.permanentAddress.street" type="text" placeholder="Street" class="form-input mt-1 block w-full" />
-            <input v-model="form.permanentAddress.barangay" type="text" placeholder="Barangay" class="form-input mt-1 block w-full" />
-            <input v-model="form.permanentAddress.city" type="text" placeholder="City" class="form-input mt-1 block w-full" />
-            <input v-model="form.permanentAddress.province" type="text" placeholder="Province" class="form-input mt-1 block w-full" />
-            <input v-model="form.permanentAddress.region" type="text" placeholder="Region" class="form-input mt-1 block w-full" />
+            <input v-model="form.permanentAddress.homenumber" type="text" placeholder="Home Number" class="block w-full mt-1 form-input" />
+            <input v-model="form.permanentAddress.street" type="text" placeholder="Street" class="block w-full mt-1 form-input" />
+            <input v-model="form.permanentAddress.barangay" type="text" placeholder="Barangay" class="block w-full mt-1 form-input" />
+            <input v-model="form.permanentAddress.city" type="text" placeholder="City" class="block w-full mt-1 form-input" />
+            <input v-model="form.permanentAddress.province" type="text" placeholder="Province" class="block w-full mt-1 form-input" />
+            <input v-model="form.permanentAddress.region" type="text" placeholder="Region" class="block w-full mt-1 form-input" />
           </div>
           <div class="mb-4">
             <label class="block text-gray-700">Current Address</label>
-            <input v-model="form.currentAddress.homenumber" type="text" placeholder="Home Number" class="form-input mt-1 block w-full" />
-            <input v-model="form.currentAddress.street" type="text" placeholder="Street" class="form-input mt-1 block w-full" />
-            <input v-model="form.currentAddress.barangay" type="text" placeholder="Barangay" class="form-input mt-1 block w-full" />
-            <input v-model="form.currentAddress.city" type="text" placeholder="City" class="form-input mt-1 block w-full" />
-            <input v-model="form.currentAddress.province" type="text" placeholder="Province" class="form-input mt-1 block w-full" />
-            <input v-model="form.currentAddress.region" type="text" placeholder="Region" class="form-input mt-1 block w-full" />
+            <input v-model="form.currentAddress.homenumber" type="text" placeholder="Home Number" class="block w-full mt-1 form-input" />
+            <input v-model="form.currentAddress.street" type="text" placeholder="Street" class="block w-full mt-1 form-input" />
+            <input v-model="form.currentAddress.barangay" type="text" placeholder="Barangay" class="block w-full mt-1 form-input" />
+            <input v-model="form.currentAddress.city" type="text" placeholder="City" class="block w-full mt-1 form-input" />
+            <input v-model="form.currentAddress.province" type="text" placeholder="Province" class="block w-full mt-1 form-input" />
+            <input v-model="form.currentAddress.region" type="text" placeholder="Region" class="block w-full mt-1 form-input" />
           </div>
-
-
-
-        <h2 class="text-xl font-bold mb-4">Step 2: Additional Information (Driver Only)</h2>
+        </form> 
+        <h2 class="mb-4 text-xl font-bold">Step 2: Additional Information (Driver Only)</h2>
         <form @submit.prevent="submitForm">
-  
             <div class="mb-4">
               <label class="block text-gray-700">Emergency Contact Full Name</label>
-              <input v-model="form.emergencyContact.fullname" type="text" class="form-input mt-1 block w-full" />
+              <input v-model="form.emergencyContact.fullname" type="text" class="block w-full mt-1 form-input" />
             </div>
             <div class="mb-4">
               <label class="block text-gray-700">Relationship</label>
-              <input v-model="form.emergencyContact.relationship" type="text" class="form-input mt-1 block w-full" />
+              <input v-model="form.emergencyContact.relationship" type="text" class="block w-full mt-1 form-input" />
             </div>
             <div class="mb-4">
               <label class="block text-gray-700">Phone Number</label>
-              <input v-model="form.emergencyContact.phoneNumber" type="text" class="form-input mt-1 block w-full" />
+              <input v-model="form.emergencyContact.phoneNumber" type="text" class="block w-full mt-1 form-input" />
             </div>
             <div class="mb-4">
               <label class="block text-gray-700">Email</label>
-              <input v-model="form.emergencyContact.email" type="email" class="form-input mt-1 block w-full" />
+              <input v-model="form.emergencyContact.email" type="email" class="block w-full mt-1 form-input" />
             </div>
             <div class="mb-4">
               <label class="block text-gray-700">Address</label>
-              <input v-model="form.emergencyContact.address" type="text" class="form-input mt-1 block w-full" />
+              <input v-model="form.emergencyContact.address" type="text" class="block w-full mt-1 form-input" />
             </div>
-          </div>
-          <button type="button" @click="previousStep" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">Previous</button>
-          <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Submit</button>
-        </form>
+            <button type="button" @click="previousStep" class="px-4 py-2 font-bold text-white bg-gray-500 rounded hover:bg-gray-700">Previous</button>
+            <button type="submit" class="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">Submit</button>
+          </form>
       </div>
     </div>
   </div>
