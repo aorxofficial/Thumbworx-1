@@ -20,8 +20,8 @@
 				A Smart Trucking Management System
 			</p>
 			<div class="flex flex-col space-y-4 sm:items-center sm:justify-center sm:flex-row sm:space-y-0 sm:space-x-4 lg:justify-start">
-				<a rel="noopener noreferrer" href="#" class="px-8 py-3 text-lg font-semibold border-fmt white-txt">ADMIN</a>
-				<a rel="noopener noreferrer" href="#" class="px-8 py-3 text-lg font-semibold border-fmt white-txt">SUPER ADMIN</a>
+        <router-link to="/loginadmin"> <a rel="noopener noreferrer"  class="px-8 py-3 text-lg font-semibold border-fmt white-txt">ADMIN</a></router-link>
+		<router-link to="/login"> <a rel="noopener noreferrer"  class="px-8 py-3 text-lg font-semibold border-fmt white-txt">SUPER ADMIN</a></router-link>
 			</div>
 		</div>
 	</div>
@@ -78,9 +78,9 @@ body{
 
     width: 100%;
     height: 100%;
-  background:fixed;
-  background-size: cover;
-  background-image: url("https://www.frost.com/wp-content/uploads/2017/07/Connected-truck-telematics.jpg");
+    background:fixed;
+    background-size: cover;
+    background-image: url("https://www.frost.com/wp-content/uploads/2017/07/Connected-truck-telematics.jpg");
 }
 
 </style>

@@ -7,9 +7,10 @@
           class="flex flex-col overflow-hidden bg-white rounded-md shadow-lg max md:flex-row md:flex-1 lg:max-w-screen-md"
         >
           <div
+          
             class="p-4 py-6 text-white bg-blue-500 md:w-80 md:flex-shrink-0 md:flex md:flex-col md:items-center md:justify-evenly"
           >
-           <div class="my-3 text-4xl font-bold tracking-wider tracking-widest text-center">
+           <div class="my-3 text-4xl font-bold tracking-wider text-center tracking-widest">
               <a href="#" >Thumbworx</a>
             </div>
             <p class="mt-6 font-normal text-center text-gray-300 md:mt-0">
@@ -19,7 +20,7 @@
           </div>
           <div class="p-5 bg-white md:flex-1">
             <img class="m-auto size-40 center-margin" src="https://th.bing.com/th/id/R.f60de85e220a6c066dca269bae4e4eed?rik=5V1xnEBnOuZrJg&riu=http%3a%2f%2fclipart-library.com%2fimages_k%2ftruck-silhouette-images%2ftruck-silhouette-images-24.png&ehk=XOXvl%2bhOQLME4sLz9fccgTnrTYWeaP9o7p%2fun%2bLw0nk%3d&risl=&pid=ImgRaw&r=0" alt="" srcset="">
-            <h3 class="my-4 text-2xl font-semibold text-center text-gray-700">Super Admin Login</h3>
+            <h3 class="my-4 text-2xl font-semibold text-gray-700 text-center">Super Admin Login</h3>
             <form @submit.prevent="login" class="flex flex-col space-y-5">
               <div class="flex flex-col space-y-1">
                 <label for="email" class="text-sm font-semibold text-gray-500">Email</label>
@@ -29,7 +30,7 @@
                   placeholder="ex: admin@gmail.com"
                   v-model="email"
                   autofocus
-                  class="px-4 py-2 transition duration-300 border rounded border-slate-500 focus:border-transparent focus:outline-none focus:ring-4 focus:ring-blue-200"
+                  class="px-4 py-2 transition duration-300 border border-slate-500 rounded focus:border-transparent focus:outline-none focus:ring-4 focus:ring-blue-200"
                 />
               </div>
               <div class="flex flex-col space-y-1">
@@ -41,7 +42,7 @@
                   id="password"
                   placeholder="********"
                   v-model="password"
-                  class="px-4 py-2 transition duration-300 border rounded border-slate-500 focus:border-transparent focus:outline-none focus:ring-4 focus:ring-blue-200"
+                  class="px-4 py-2 transition duration-300 border border-slate-500 rounded focus:border-transparent focus:outline-none focus:ring-4 focus:ring-blue-200"
                 />
               </div>
               <div>
@@ -60,7 +61,7 @@
   </template>
 
 <script>
-import { useAdminStore } from '../../stores/adminStore';
+import axios from 'redaxios';
 
 export default {
   data() {
@@ -70,16 +71,20 @@ export default {
       error: null,
     };
   },
-  setup() {
-    const adminStore = useAdminStore()
-    return { adminStore } 
-  },  
   methods: {
     async login() {
       try {
-        await this.adminStore.login(this.email, this.password)
+        const response = await axios.post('http://127.0.0.1:8000/api/login', {
+          email: this.email,
+          password: this.password,
+        });
+
+        const { token } = response.data;
+        localStorage.setItem('token', token); // Store token securely in localStorage
+        this.$router.push({ name: 'Dashboard' }); // Redirect to dashboard page after login
       } catch (error) {
         this.error = 'Invalid email or password';
+        console.error('Error:', error);
       }
     },
   },
