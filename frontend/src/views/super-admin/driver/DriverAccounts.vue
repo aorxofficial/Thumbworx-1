@@ -66,14 +66,14 @@
             </thead>
              <tbody>
       
-              <tr v-for="user in result" v-bind:key="user.id"
+              <tr v-for="user in filteredResults" v-bind:key="user.id"
                 class="border-b border-neutral-200 transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-white/10 dark:hover:bg-neutral-600">
                 <td class="whitespace-nowrap px-6 py-4 font-medium">{{ user.id }}</td>
                 <td class="whitespace-nowrap px-6 py-4">{{ user.first_name }} {{ user.last_name }}</td>
                 <td class="whitespace-nowrap px-6 py-4">{{ user.email }}m</td>
                 <td class="whitespace-nowrap px-6 py-4">{{ user.phone_number1 }}</td>
                 <td class="whitespace-nowrap px-6 py-4">{{ getStatusDisplay(user.account_status) }}</td>
-                <td class="whitespace-nowrap px-6 py-4"><router-link :to="'/UserDetails/' + user.id">View</router-link> </td>
+                <td class="whitespace-nowrap px-6 py-4"><router-link :to="'/DriverDetails/' + user.id">View</router-link> </td>
              </tr>
   
             </tbody>
@@ -107,19 +107,24 @@
   
 <script> //Bawal tanggalin ung script tag para makita pa rin display kasi part sya ng default code
 import axios from "redaxios";
-import { useAdminStore } from '../../stores/adminStore';
+import { useAdminStore } from '../../../stores/adminStore'; //Added Folder needs to add "../"
 
 export default {
   name: 'UserAccount',
   data() {
     return {
-      result: {},
+      result: [], //Change into array
       showDropdown: false,
     };
   },
   created() {
     // Fetch user account data when the component is created
     this.UserAccountLoad();
+  },
+  computed: {
+    filteredResults() {
+      return this.result.filter(user => user.user_type === "Driver");
+    },
   },
   methods: {
     UserAccountLoad() {

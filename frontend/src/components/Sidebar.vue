@@ -16,18 +16,34 @@
 				<span class="material-icons">dashboard</span>
 				<span class="text">Dashboard</span>
 			</router-link>
-			<router-link to="/UserAccount" class="button">
+			<router-link to="/DriverAccounts" class="button">
 				<!-- material-icons = icon-->
 				<span class="material-icons">group</span> 
-				<span class="text">Account</span>
+				<span class="text">Driver Accounts</span>
 			</router-link>
-			<router-link to="/Logs" class="button">
+			<router-link to="/DriverLogs" class="button">
 				<span class="material-icons">description</span>
-				<span class="text">Logs</span>
+				<span class="text">Driver Logs</span>
 			</router-link>
 			<router-link to="/AccountRecover" class="button">
 				<span class="material-icons">group</span>
 				<span class="text">Account Recovery</span>
+			</router-link>
+			<router-link to="/ClientAccounts" class="button">
+				<span class="material-icons">group</span>
+				<span class="text">Client Accounts</span>
+			</router-link>
+			<router-link to="/ClientLogs" class="button">
+				<span class="material-icons">description</span>
+				<span class="text">Client Logs</span>
+			</router-link>
+			<router-link to="/HelperAccounts" class="button">
+				<span class="material-icons">description</span>
+				<span class="text">Helper Accounts</span>
+			</router-link>
+			<router-link to="/HelperLogs" class="button">
+				<span class="material-icons">description</span>
+				<span class="text">Helper Logs</span>
 			</router-link>
 			
 		</div>
@@ -46,7 +62,7 @@
 <script>
 import { ref } from 'vue'
 import router from '../router' // Para maredirect sa login or other pages kung want
-import { useAdminStore } from '../stores/adminStore'
+import { useAdminStore } from '../stores/adminStore' // Jwt codes
 
 export default {
 	name: 'Sidebar',
