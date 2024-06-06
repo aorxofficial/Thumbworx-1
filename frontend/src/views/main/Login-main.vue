@@ -76,7 +76,7 @@ export default {
     async login() {
       const adminStore = useAdminStore()
       try {
-        await adminStore.adminLogin(this.email, this.password)
+        await adminStore.login(this.email, this.password)
       } catch (error) {
         console.error('Error:', error);
       }

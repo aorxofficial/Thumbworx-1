@@ -17,6 +17,8 @@ import HelperBooking from '../views/admin/HelperBooking.vue';
 import HelperLogs from '../views/admin/HelperLogs.vue';
 import HelperRatings from '../views/admin/HelperRatings.vue';
 import { useAdminStore } from '../stores/adminStore';
+import DriverHome from '../views/driver/DriverHome.vue';
+import ClientHome from '../views/client/ClientHome.vue';
 
 const routes = [
   {   
@@ -37,6 +39,29 @@ const routes = [
     meta: { requiresGuest: true, sidebar: true },
     name: 'Registration',
   },
+  // driver related routes
+  {
+    path: '/driver',
+    children: [
+      {
+        path: 'home',
+        component: DriverHome,
+        meta: { requiresDriver: true }
+      }
+    ]
+  },
+  // client related routes
+  {
+    path: '/client',
+    children: [
+      {
+        path: 'home',
+        component: ClientHome,
+        meta: { requiresClient: true }
+      }
+    ]
+  },
+  // admin related routes
   {   
     path: '/admin',
     component: DefaultLayout,
@@ -140,22 +165,30 @@ router.beforeEach((to, from, next) => {
 
   const requiresGuest = to.matched.some(record => record.meta.requiresGuest);
   const requiresAdmin = to.matched.some(record => record.meta.requiresAdmin);
+  const requiresClient = to.matched.some(record => record.meta.requiresClient);
+  const requiresDriver = to.matched.some(record => record.meta.requiresDriver);
 
   console.log("requires guest", requiresGuest);
   console.log("requires admin", requiresAdmin);
-  console.log(user);
+  console.log("requires client", requiresClient);
+  console.log("requires driver", requiresDriver);
 
-  console.log(user?.user_type);
-  
   if (requiresGuest && user) {
     if (user.user_type === 'admin') {
       next({ name: 'Dashboard' });
+    } else if (user.user_type === 'client') {
+      next({ path: '/client/home' });
+    } else if (user.user_type === 'driver') {
+      next({ path: '/driver/home' });
     } else {
-      // Redirect to another appropriate route if user is not admin
       next({ name: 'LandingPage' });
     }
   } else if (requiresAdmin && (!user || user.user_type !== 'admin')) {
     next({ name: 'LoginAdmin' });
+  } else if (requiresClient && (!user || user.user_type !== 'client')) {
+    next({ name: 'LoginMain' });
+  } else if (requiresDriver && (!user || user.user_type !== 'driver')) {
+    next({ name: 'LoginMain' });
   } else {
     next();
   }
