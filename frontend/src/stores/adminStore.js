@@ -4,7 +4,7 @@ import { jwtDecode }from 'jwt-decode';
 
 export const useAdminStore = defineStore('user', {
     state: () => ({
-      user: null,
+      user: localStorage.getItem('token') ? jwtDecode(localStorage.getItem('token')).user : null,
       token: localStorage.getItem('token') || null,
       refreshTimeout: null,
     }),
@@ -19,6 +19,7 @@ export const useAdminStore = defineStore('user', {
                 this.token = token
                 localStorage.setItem('token', token)
                 this.user = jwtDecode(this.token).user
+                console.log(this.user)
                 this.router.push({ name: 'Dashboard' })
             }
             catch (error) {
