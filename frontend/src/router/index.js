@@ -10,30 +10,31 @@ import Registration from '../views/main/Registration.vue';
 import LoginMain from '../views/main/Login-main.vue';
 import Login from '../views/admin/Login.vue';
 import DefaultLayout from '../layouts/DefaultLayout.vue';
+import { useAdminStore } from '../stores/adminStore';
 
 const routes = [
   {   
     path: '/landing-page',
     component: LandingPage,
-    meta: { requiresAuth: false, sidebar: false },
+    meta: { requiresGuest: true, sidebar: false },
     name: 'LandingPage',
   },
   {
     path: '/login',
     component: LoginMain,
-    meta: { sidebar: true },
+    meta: { requiresGuest: true, sidebar: true },
     name: 'LoginMain',
   },
   {
     path: '/registration',
     component: Registration,
-    meta: { sidebar: true },
+    meta: { requiresGuest: true, sidebar: true },
     name: 'Registration',
   },
   {
     path: '/loginadmin',
     component: Login,
-    meta: { sidebar: false },
+    meta: { requiresGuest: true, sidebar: false },
     name: 'LoginAdmin',
   },
   {   
@@ -44,38 +45,38 @@ const routes = [
         path: '/dashboard',
         component: Dashboard,
         name: 'Dashboard',
-        meta: { requiresAuth: true, sidebar: true },
+        meta: { requiresAdmin: true, sidebar: true },
       },
       {
         path: '/user-account',
         component: UserAccount,
         name: 'UserAccount',
-        meta: { requiresAuth: true, sidebar: true },
+        meta: { requiresAdmin: true, sidebar: true },
       },
       {
         path: '/logs',
         component: Logs,
         name: 'Logs',
-        meta: { requiresAuth: true, sidebar: true },
+        meta: { requiresAdmin: true, sidebar: true },
       },
       {
         path: '/user-details/:id',
         component: UserDetails,
         name: 'UserDetails',
         props: true,
-        meta: { requiresAuth: true, sidebar: true },
+        meta: { requiresAdmin: true, sidebar: true },
       },
       {
         path: '/revise-documents',
         component: ReviseDocuments,
         name: 'ReviseDocuments',
-        meta: { requiresAuth: true, sidebar: true },
+        meta: { requiresAdmin: true, sidebar: true },
       },
       {
         path: '/account-recover',
         component: AccountRecover,
         name: 'AccountRecover',
-        meta: { requiresAuth: true, sidebar: true },
+        meta: { requiresAdmin: true, sidebar: true },
       },
       
     ],
@@ -92,21 +93,28 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const isAuthenticated = localStorage.getItem('token');
-  // const userType = localStorage.getItem('userType'); // Assuming userType is stored in localStorage
+  const adminStore = useAdminStore()
+  const user = adminStore.user 
 
-  if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (!isAuthenticated) {
-      console.log("This triggers");
-      next({ name: 'Login' });
-    } else {
-      console.log("So it did match something")
-      next();
-    }
-  } else {
-    console.log("What")
-    next();
-  }
+  const requiresGuest = to.matched.some(record => record.meta.requiresGuest)
+  const requiresAdmin = to.matched.some(record => record.meta.requiresAdmin)
+
+  console.log("requires guest", requiresGuest)
+  console.log("requires admin", requiresAdmin)
+  console.log(user)
+  
+  next()
+  // if (requiresGuest && user) {
+  //     if (user.user_type == 'admin') {
+  //       next({ name: "Dashboard" })
+  //     } else {
+
+  //     }
+  // } else if (requiresAdmin && !user) {
+  //   // next({ name: "Login"})
+  // } else {
+  //   next()
+  // }
 });
 
 export default router;

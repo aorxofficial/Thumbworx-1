@@ -62,6 +62,7 @@
 
 <script>
 import axios from 'redaxios';
+import { useAdminStore } from '../../stores/adminStore';
 
 export default {
   data() {
@@ -73,17 +74,10 @@ export default {
   },
   methods: {
     async login() {
+      const adminStore = useAdminStore()
       try {
-        const response = await axios.post('http://127.0.0.1:8000/api/auth/admin/login', {
-          email: this.email,
-          password: this.password,
-        });
-
-        const { token } = response.data;
-        localStorage.setItem('token', token); // Store token securely in localStorage
-        this.$router.push({ name: 'Dashboard' }); // Redirect to dashboard page after login
+        await adminStore.adminLogin(this.email, this.password)
       } catch (error) {
-        this.error = 'Invalid email or password';
         console.error('Error:', error);
       }
     },

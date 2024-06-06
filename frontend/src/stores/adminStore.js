@@ -6,21 +6,24 @@ export const useAdminStore = defineStore('user', {
     state: () => ({
       user: null,
       token: localStorage.getItem('token') || null,
-      user_type: null,
       refreshTimeout: null,
     }),
     actions: {
-        async login(email, password) {
-            const response = await axios.post('http://127.0.0.1:8000/api/auth/admin/login', {
-                email,
-                password
-            })
-
-            const { token } = response.data;
-            this.token = token
-            localStorage.setItem('token', token)
-
-            this.router.push({ name: 'Dashboard' })
+        async adminLogin(email, password) {
+            try {
+                const response = await axios.post('http://127.0.0.1:8000/api/auth/admin/login', {
+                    email,
+                    password
+                })
+                const { token } = response.data;
+                this.token = token
+                localStorage.setItem('token', token)
+                this.user = jwtDecode(this.token).user
+                this.router.push({ name: 'Dashboard' })
+            }
+            catch (error) {
+                throw error;
+            }
         },
         logout() {
             this.token = null
