@@ -6,6 +6,7 @@ export const useAdminStore = defineStore('user', {
     state: () => ({
       user: null,
       token: localStorage.getItem('token') || null,
+      user_type: null,
       refreshTimeout: null,
     }),
     actions: {
