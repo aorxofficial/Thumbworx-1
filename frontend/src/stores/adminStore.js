@@ -9,6 +9,28 @@ export const useAdminStore = defineStore('user', {
       refreshTimeout: null,
     }),
     actions: {
+        async login() {
+            try {
+                const response = await axios.post('http://127.0.0.1:8000/api/auth/login', {
+                    email,
+                    password
+                })
+                console.log(response)
+                const { token } = response.data;
+                this.token = token
+                localStorage.setItem('token', this.token)
+                this.user = jwtDecode(this.token).user
+                
+                if (this.user.user_type === "driver") {
+                    this.router.push({ name: 'DriverHome' })
+                } else if (this.user.user_type === "client") {
+                    this.router.push({ name: "ClientHome" })
+                }
+            }
+            catch (error) {
+                throw error;
+            }
+        },
         async adminLogin(email, password) {
             try {
                 const response = await axios.post('http://127.0.0.1:8000/api/auth/admin/login', {
