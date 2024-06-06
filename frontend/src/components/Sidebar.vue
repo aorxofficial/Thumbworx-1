@@ -308,42 +308,82 @@
 					   </li>
 					 </ul> 
 				   </li>
-				 </ul>
-			  
-			</li>
+				 </ul> 
+		    </li>
 		  </ul>
+      <div>
+    <!-- Existing sidebar code -->
+    <ul class="space-y-2 font-medium">
+      <!-- Other sidebar items -->
+
+      <!-- Logout button -->
+      <div class="">
+      <li>
+        <button
+          @click="logout"
+          class="flex items-center w-full p-2 text-base text-white transition duration-75 rounded-lg group hover:bg-gray-300 dark:text-white dark:hover:bg-gray-700"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="flex-shrink-0 transition duration-75 w-7 h-7 text-cotton group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-blue-500"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-3a2.25 2.25 0 00-2.25 2.25V9m-6 0h16.5m-16.5 0L5.25 12m0 0l-2.25 3m2.25-3h16.5"
+            />
+          </svg>
+          <span class="ms-3 group-hover:text-black">Logout</span>
+        </button>
+      </li>
+      </div>
+    </ul>
+  </div>
 		</div>
 	  </aside>
+    
 	</div>
   </template>
-  
   <script>
   export default {
-	name: "Sidebar",
-	mounted() {
-   document.querySelectorAll("[data-collapse-toggle]").forEach((button) => {
-	 button.addEventListener("click", function () {
-	   const target = document.getElementById(button.getAttribute("aria-controls"));
-	   target.classList.toggle("hidden");
-	 });
-   });
- 
-   document.querySelectorAll("[data-drawer-toggle]").forEach((button) => {
-	 button.addEventListener("click", function () {
-	   const target = document.getElementById(button.getAttribute("data-drawer-target"));
-	   target.classList.toggle("-translate-x-full");
-	 });
-   });
-   const testButton = document.querySelector("[data-test-toggle]"); // Select the "Test" button
- testButton.addEventListener("click", function () {
-   const testSubMenu = document.getElementById(testButton.getAttribute("aria-controls")); // Get the submenu based on the aria-controls attribute
-   testSubMenu.classList.toggle("hidden"); // Toggle the visibility of the submenu
- });
-	}
- }
-  </script>
+    name: "Sidebar",
+    mounted() {
+      document.querySelectorAll("[data-collapse-toggle]").forEach((button) => {
+        button.addEventListener("click", function () {
+          const target = document.getElementById(button.getAttribute("aria-controls"));
+          target.classList.toggle("hidden");
+        });
+      });
   
-  <style scoped>
-  /* Add custom styles if needed */
-  </style>
+      document.querySelectorAll("[data-drawer-toggle]").forEach((button) => {
+        button.addEventListener("click", function () {
+          const target = document.getElementById(button.getAttribute("data-drawer-target"));
+          target.classList.toggle("-translate-x-full");
+        });
+      });
+  
+      const testButton = document.querySelector("[data-test-toggle]"); // Select the "Test" button
+      testButton.addEventListener("click", function () {
+        const testSubMenu = document.getElementById(testButton.getAttribute("aria-controls")); // Get the submenu based on the aria-controls attribute
+        testSubMenu.classList.toggle("hidden"); // Toggle the visibility of the submenu
+      });
+    },
+    methods: {
+      logout() {
+        // Remove the token from local storage or wherever it's stored
+        localStorage.removeItem('userToken');
+  
+        // Optionally, clear other user-related data
+        // localStorage.removeItem('userData');
+  
+        // Redirect the user to the login page
+        this.$router.push('/login');
+      }
+    }
+  }
+  </script>
   
