@@ -45,7 +45,7 @@
 		  <ul class="space-y-2 font-medium">
 	 <li>
 	   <router-link
-		 to="/Dashboard"
+		 to="/admin/Dashboard"
 		 class="flex items-center w-full p-2 text-base text-white transition duration-75 rounded-lg group hover:bg-gray-300 dark:text-white dark:hover:bg-gray-700"
 	   >
 		 <svg
@@ -154,13 +154,13 @@
 			  
  
 				  <ul id="dropdown-sub" class="hidden py-2 space-y-2">
-					   <li> <router-link to="/UserAccount" class="flex items-center w-full p-2 text-white transition duration-75 rounded-lg group hover:bg-gray-300 dark:text-white dark:hover:bg-gray-700">
+					   <li> <router-link to="/" class="flex items-center w-full p-2 text-white transition duration-75 rounded-lg group hover:bg-gray-300 dark:text-white dark:hover:bg-gray-700">
 						   
 						 <!-- Yung Router-LINK diyan ililink yung page para don -->
 						 <span class="ml-6 text-sm group-hover:text-black">Account</span>
 					   </router-link>
 					   </li>
-					   <li><router-link to="/ReviseDocuments" class="flex items-center w-full p-2 text-white transition duration-75 rounded-lg group hover:bg-gray-300 dark:text-white dark:hover:bg-gray-700">
+					   <li><router-link to="/" class="flex items-center w-full p-2 text-white transition duration-75 rounded-lg group hover:bg-gray-300 dark:text-white dark:hover:bg-gray-700">
 							<!-- Yung Router-LINK diyan ililink yung page para don (Not sure kung eto yung dapat na page) -->  
 						 <span class="ml-6 text-sm group-hover:text-black">Booking</span>
 						 </router-link>
@@ -219,31 +219,28 @@
 			  
  
 				  <ul id="dropdown-helper" class="hidden py-2 space-y-2">
-					   <li> <router-link to="/UserAccount" class="flex items-center w-full p-2 text-white transition duration-75 rounded-lg group hover:bg-gray-300 dark:text-white dark:hover:bg-gray-700">
+					   <li> <router-link to="/admin/HelperAccount" class="flex items-center w-full p-2 text-white transition duration-75 rounded-lg group hover:bg-gray-300 dark:text-white dark:hover:bg-gray-700">
 						   
 						 <!-- Yung Router-LINK diyan ililink yung page para don -->
 						 <span class="ml-6 text-sm group-hover:text-black">Account</span>
 					   </router-link>
 					   </li>
-					   <li><router-link to="/ReviseDocuments" class="flex items-center w-full p-2 text-white transition duration-75 rounded-lg group hover:bg-gray-300 dark:text-white dark:hover:bg-gray-700">
+					   <li><router-link to="/admin/HelperBooking" class="flex items-center w-full p-2 text-white transition duration-75 rounded-lg group hover:bg-gray-300 dark:text-white dark:hover:bg-gray-700">
 							<!-- Yung Router-LINK diyan ililink yung page para don (Not sure kung eto yung dapat na page) -->  
 						 <span class="ml-6 text-sm group-hover:text-black">Booking</span>
 						 </router-link>
 					   </li>
-					   <li>
-						 <a href="#" class="flex items-center w-full p-2 text-white transition duration-75 rounded-lg group hover:bg-gray-300 dark:text-white dark:hover:bg-gray-700">
+					   <li><router-link to="/admin/HelperRatings" class="flex items-center w-full p-2 text-white transition duration-75 rounded-lg group hover:bg-gray-300 dark:text-white dark:hover:bg-gray-700">
 						   <span class="ml-6 text-sm group-hover:text-black">Rating</span>
-						 </a>
+						 </router-link>
 					   </li>
-					   <li>
-						 <a href="#" class="flex items-center w-full p-2 text-white transition duration-75 rounded-lg group hover:bg-gray-300 dark:text-white dark:hover:bg-gray-700">
+					   <li><router-link to="" class="flex items-center w-full p-2 text-white transition duration-75 rounded-lg group hover:bg-gray-300 dark:text-white dark:hover:bg-gray-700">
 						   <span class="ml-6 text-sm group-hover:text-black">Evaluation</span>
-						 </a>
+						</router-link>
 					   </li>
-					   <li>
-						 <a href="#" class="flex items-center w-full p-2 text-white transition duration-75 rounded-lg group hover:bg-gray-300 dark:text-white dark:hover:bg-gray-700">
+					   <li><router-link to="admin/HelperLogs" class="flex items-center w-full p-2 text-white transition duration-75 rounded-lg group hover:bg-gray-300 dark:text-white dark:hover:bg-gray-700">
 						   <span class="ml-6 text-sm group-hover:text-black">Logs</span>
-						 </a>
+						</router-link>
 					   </li>
 					 </ul> 
 				   </li>
@@ -283,13 +280,13 @@
 			  
  
 				  <ul id="dropdown-client" class="hidden py-2 space-y-2">
-					   <li> <router-link to="/UserAccount" class="flex items-center w-full p-2 text-white transition duration-75 rounded-lg group hover:bg-gray-300 dark:text-white dark:hover:bg-gray-700">
+					   <li> <router-link to="admin/ClientAccount" class="flex items-center w-full p-2 text-white transition duration-75 rounded-lg group hover:bg-gray-300 dark:text-white dark:hover:bg-gray-700">
 						   
 						 <!-- Yung Router-LINK diyan ililink yung page para don -->
 						 <span class="ml-6 text-sm group-hover:text-black">Account</span>
 					   </router-link>
 					   </li>
-					   <li><router-link to="/ReviseDocuments" class="flex items-center w-full p-2 text-white transition duration-75 rounded-lg group hover:bg-gray-300 dark:text-white dark:hover:bg-gray-700">
+					   <li><router-link to="admin/ClientBooking" class="flex items-center w-full p-2 text-white transition duration-75 rounded-lg group hover:bg-gray-300 dark:text-white dark:hover:bg-gray-700">
 							<!-- Yung Router-LINK diyan ililink yung page para don (Not sure kung eto yung dapat na page) -->  
 						 <span class="ml-6 text-sm group-hover:text-black">Booking</span>
 						 </router-link>

@@ -10,6 +10,12 @@ import Registration from '../views/main/Registration.vue';
 import LoginMain from '../views/main/Login-main.vue';
 import Login from '../views/admin/Login.vue';
 import DefaultLayout from '../layouts/DefaultLayout.vue';
+import ClientAccount from '../views/admin/ClientAccount.vue';
+import ClientBooking from '../views/admin/ClientBooking.vue';
+import HelperAccount from '../views/admin/HelperAccount.vue';
+import HelperBooking from '../views/admin/HelperBooking.vue';
+import HelperLogs from '../views/admin/HelperLogs.vue';
+import HelperRatings from '../views/admin/HelperRatings.vue';
 
 const routes = [
   {   
@@ -75,6 +81,48 @@ const routes = [
         path: '/account-recover',
         component: AccountRecover,
         name: 'AccountRecover',
+        meta: { requiresAuth: true, sidebar: true },
+      },
+      {
+        path: 'admin/dashboard',
+        component: Dashboard,
+        name: 'Dashboard',
+        meta: { requiresAuth: true, sidebar: true },
+      },
+      {
+        path: '/admin/ClientAccount',
+        component: ClientAccount,
+        name: 'ClientAccount',
+        meta: { requiresAuth: true, sidebar: true },
+      },
+      {
+        path: '/admin/ClientBooking',
+        component: ClientBooking,
+        name: 'ClientBooking',
+        meta: { requiresAuth: true, sidebar: true },
+      },
+      {
+        path: '/admin/HelperAccount',
+        component: HelperAccount,
+        name: 'HelperAccount',
+        meta: { requiresAuth: true, sidebar: true },
+      },
+      {
+        path: '/admin/HelperLogs',
+        component: HelperLogs,
+        name: 'HelperLogs',
+        meta: { requiresAuth: true, sidebar: true },
+      },
+      {
+        path: '/admin/HelperRatings',
+        component: HelperRatings,
+        name: 'HelperRatings',
+        meta: { requiresAuth: true, sidebar: true },
+      },
+      {
+        path: '/admin/HelperBooking',
+        component: HelperBooking,
+        name: 'HelperBooking',
         meta: { requiresAuth: true, sidebar: true },
       },
       
